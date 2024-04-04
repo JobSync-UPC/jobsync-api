@@ -31,12 +31,15 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse register(RegisterRequest registerRequest, Role role) {
+
         if(role.equals(Role.ROLE_RECRUITER)){
             var recruiter = Recruiter.builder()
                     .firstname(registerRequest.getFirstname())
                     .lastname(registerRequest.getLastname())
                     .email(registerRequest.getEmail())
                     .password(passwordEncoder.encode(registerRequest.getPassword()))
+                    .profilePictureUrl(registerRequest.getProfilePictureUrl())
+                    .country(registerRequest.getCountry())
                     .role(role)
                     .enabled(Boolean.TRUE)
                     .build();
@@ -51,6 +54,8 @@ public class AuthenticationService {
                     .lastname(registerRequest.getLastname())
                     .email(registerRequest.getEmail())
                     .password(passwordEncoder.encode(registerRequest.getPassword()))
+                    .profilePictureUrl(registerRequest.getProfilePictureUrl())
+                    .country(registerRequest.getCountry())
                     .role(role)
                     .enabled(Boolean.TRUE)
                     .build();
