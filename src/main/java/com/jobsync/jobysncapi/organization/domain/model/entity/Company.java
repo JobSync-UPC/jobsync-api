@@ -29,9 +29,17 @@ public class Company {
 
     String logoUrl;
 
+    String country;
+
+    String address;
+
     String website;
 
     String industry;
+
+    Integer recruiter_owner_id;
+
+    Boolean enabled;
 
     @OneToMany(mappedBy = "company")
     List<Recruiter> recruiters;

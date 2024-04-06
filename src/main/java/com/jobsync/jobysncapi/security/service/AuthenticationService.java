@@ -7,6 +7,7 @@ import com.jobsync.jobysncapi.security.domain.persistence.RecruiterRepository;
 import com.jobsync.jobysncapi.security.service.communication.AuthenticationRequest;
 import com.jobsync.jobysncapi.security.service.communication.AuthenticationResponse;
 import com.jobsync.jobysncapi.security.service.communication.RegisterRequest;
+import com.jobsync.jobysncapi.shared.exception.GlobalExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +32,18 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse register(RegisterRequest registerRequest, Role role) {
+
+        if(userRepository.existsByEmail(registerRequest.getEmail())){
+            throw new GlobalExceptionHandler("User","Email already exists");
+        }
+
+        if(!registerRequest.getPassword().matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$")){
+            throw new GlobalExceptionHandler("User","Password must contain at least one letter, at least one number, and be longer than six characters");
+        }
+
+        if(!registerRequest.getEmail().matches("^(.+)@(.+)$")){
+            throw new GlobalExceptionHandler("User","Email is not valid");
+        }
 
         if(role.equals(Role.ROLE_RECRUITER)){
             var recruiter = Recruiter.builder()
@@ -69,15 +82,20 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse login(AuthenticationRequest registerRequest) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        registerRequest.getEmail(),
-                        registerRequest.getPassword()
-                )
-        );
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            registerRequest.getEmail(),
+                            registerRequest.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            throw new GlobalExceptionHandler("User","Email or password is incorrect");
+        }
 
         var user = userRepository.findByEmail(registerRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Email or password is incorrect"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

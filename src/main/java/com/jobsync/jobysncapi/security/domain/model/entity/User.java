@@ -1,6 +1,7 @@
 package com.jobsync.jobysncapi.security.domain.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,7 @@ public class User implements UserDetails, CredentialsContainer {
     @Size(min = 2, max = 50)
     private String email;
 
+    @JsonIgnore
     @NotNull
     @NotBlank
     @Size(min = 6, max = 50)

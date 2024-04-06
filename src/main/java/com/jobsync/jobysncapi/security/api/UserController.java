@@ -44,7 +44,6 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-
     @Operation(summary = "Disable/deactivate user", responses = {
             @ApiResponse(description = "User found and disabled",
                     responseCode = "201",
