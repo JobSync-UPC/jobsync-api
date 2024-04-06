@@ -17,6 +17,4 @@ public class RegisterRequest {
     private String password;
     private String profilePictureUrl;
     private String country;
-    private Role role;
-    private boolean enabled;
 }
