@@ -61,6 +61,7 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(recruiter);
             return AuthenticationResponse.builder()
                     .token(jwtToken)
+                    .user(recruiter)
                     .build();
         } else {
             var applicant = Applicant.builder()
@@ -78,6 +79,7 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(applicant);
             return AuthenticationResponse.builder()
                     .token(jwtToken)
+                    .user(applicant)
                     .build();
         }
     }
@@ -101,6 +103,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .user(user)
                 .build();
     }
 }

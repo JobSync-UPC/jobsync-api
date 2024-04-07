@@ -4,6 +4,7 @@ import com.jobsync.jobysncapi.security.domain.model.entity.User;
 import com.jobsync.jobysncapi.security.domain.persistence.UserRepository;
 import com.jobsync.jobysncapi.security.service.UserService;
 import com.jobsync.jobysncapi.security.service.communication.RegisterRequest;
+import com.jobsync.jobysncapi.security.service.communication.UpdateUserRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -73,7 +74,7 @@ public class UserController {
                             schema = @Schema(implementation = User.class)))
     })
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    public User updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest updatedUser) {
         return userService.updateUser(id, updatedUser);
     }
 
