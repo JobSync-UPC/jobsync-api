@@ -59,6 +59,8 @@ public class User implements UserDetails, CredentialsContainer {
     @NotBlank
     private String profilePictureUrl;
 
+    private String phoneNumber;
+
 
     private String country;
 
