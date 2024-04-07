@@ -3,13 +3,10 @@ package com.jobsync.jobysncapi.security.domain.model.entity;
 import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 
-@Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
