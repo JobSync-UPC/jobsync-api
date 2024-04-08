@@ -9,13 +9,17 @@ public interface CompanyService {
 
     public abstract Company createCompany(CompanyRequest companyRequest, Long recruiterId);
 
-    public abstract Company updateCompany(Company company);
+    public abstract Company updateCompany(Long id, CompanyRequest companyRequest);
 
     public abstract void deleteCompany(Long companyId);
 
     public Iterable<CompanyResponse> getAllCompanies();
 
     public abstract Company getCompanyById(Long companyId);
+
+    public abstract Company disableCompany(Long companyId);
+
+    public abstract Company enableCompany(Long companyId);
 
 
 

@@ -7,6 +7,7 @@ import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
 import com.jobsync.jobysncapi.organization.domain.persistence.CompanyRepository;
 import com.jobsync.jobysncapi.organization.service.CompanyService;
 import com.jobsync.jobysncapi.security.domain.model.entity.Recruiter;
+import com.jobsync.jobysncapi.security.domain.model.entity.User;
 import com.jobsync.jobysncapi.security.domain.persistence.RecruiterRepository;
 import com.jobsync.jobysncapi.shared.exception.GlobalExceptionHandler;
 import org.modelmapper.ModelMapper;
@@ -51,17 +52,25 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company updateCompany(Company company) {
-
-        Company existingCompany = companyRepository.findById(company.getId()).orElse(null);
-
-        if (existingCompany != null) {
-            return companyRepository.save(existingCompany);
-        } else {
-            throw new GlobalExceptionHandler("Company","No existe la empresa a modificar");
+    public Company updateCompany(Long id, CompanyRequest companyRequest) {
+        Optional<Company> optionalCompany = companyRepository.findById(id);
+        if (optionalCompany.isEmpty()) {
+            throw new GlobalExceptionHandler("Company","Company with id " + id + " not found");
         }
 
+        Company existingCompany = optionalCompany.get();
+
+        existingCompany.setName(companyRequest.getName());
+        existingCompany.setDescription(companyRequest.getDescription());
+        existingCompany.setCountry(companyRequest.getCountry());
+        existingCompany.setAddress(companyRequest.getAddress());
+        existingCompany.setLogoUrl(companyRequest.getLogoUrl());
+        existingCompany.setWebsite(companyRequest.getWebsite());
+        existingCompany.setIndustry(companyRequest.getIndustry());
+
+        return companyRepository.save(existingCompany);
     }
+
 
     @Override
     public void deleteCompany(Long companyId) {
@@ -79,5 +88,27 @@ public class CompanyServiceImpl implements CompanyService {
     public Company getCompanyById(Long companyId) {
         return companyRepository.findById(companyId).orElse(null);
     }
+
+    @Override
+    public Company disableCompany(Long companyId) {
+        return companyRepository.findById(companyId)
+                .map(company -> {
+                    company.setEnabled(Boolean.FALSE);
+                    return companyRepository.save(company);
+                })
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+    }
+
+
+    @Override
+    public Company enableCompany(Long companyId) {
+        return companyRepository.findById(companyId)
+                .map(company -> {
+                    company.setEnabled(Boolean.TRUE);
+                    return companyRepository.save(company);
+                })
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+    }
+
 
 }
