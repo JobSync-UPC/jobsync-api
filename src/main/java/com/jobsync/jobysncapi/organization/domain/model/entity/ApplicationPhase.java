@@ -17,7 +17,7 @@ public class ApplicationPhase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "applications_id", referencedColumnName = "id")
