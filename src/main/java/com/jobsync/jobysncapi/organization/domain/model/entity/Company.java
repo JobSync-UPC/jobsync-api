@@ -21,11 +21,9 @@ import java.util.List;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
-
-    private Integer organization_id;
 
     private String description;
 
@@ -39,11 +37,11 @@ public class Company {
 
     private String industry;
 
-    private Integer recruiter_owner_id;
+    private Long recruiter_owner_id;
 
     private Integer subscription_id;
 
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     @OneToMany(mappedBy = "company")
     List<Recruiter> recruiters;
