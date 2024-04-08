@@ -21,25 +21,29 @@ import java.util.List;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
-    String name;
+    private String name;
 
-    String description;
+    private Integer organization_id;
 
-    String logoUrl;
+    private String description;
 
-    String country;
+    private String country;
 
-    String address;
+    private String address;
 
-    String website;
+    private String logoUrl;
 
-    String industry;
+    private String website;
 
-    Integer recruiter_owner_id;
+    private String industry;
 
-    Boolean enabled;
+    private Integer recruiter_owner_id;
+
+    private Integer subscription_id;
+
+    private Boolean enabled;
 
     @OneToMany(mappedBy = "company")
     List<Recruiter> recruiters;
