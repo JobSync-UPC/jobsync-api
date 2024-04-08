@@ -16,17 +16,17 @@ import lombok.NoArgsConstructor;
 @Table(name="applications", uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
 })
-public class Applications {
+public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
-    Integer current_application_phase;
+    private Integer current_application_phase;
 
     @ManyToOne
     @JoinColumn(name = "applicant_id", referencedColumnName = "id")
-    Applicant applicant;
+    private Applicant applicant;
 
 
 
