@@ -1,4 +1,4 @@
-package com.jobsync.jobysncapi.security.domain.model.entity;
+package com.jobsync.jobysncapi.recruiter.domain.model.entity;
 
 import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
 import com.jobsync.jobysncapi.security.domain.model.entity.User;

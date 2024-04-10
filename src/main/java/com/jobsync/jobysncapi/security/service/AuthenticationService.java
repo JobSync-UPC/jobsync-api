@@ -1,11 +1,11 @@
 package com.jobsync.jobysncapi.security.service;
 
 import com.jobsync.jobysncapi.applicant.model.entity.Applicant;
-import com.jobsync.jobysncapi.security.domain.model.entity.Recruiter;
+import com.jobsync.jobysncapi.recruiter.domain.model.entity.Recruiter;
 import com.jobsync.jobysncapi.security.domain.model.entity.*;
 import com.jobsync.jobysncapi.applicant.model.persistence.ApplicantRepository;
 import com.jobsync.jobysncapi.security.domain.persistence.UserRepository;
-import com.jobsync.jobysncapi.security.domain.persistence.RecruiterRepository;
+import com.jobsync.jobysncapi.recruiter.domain.model.persistence.RecruiterRepository;
 import com.jobsync.jobysncapi.security.service.dto.AuthenticationRequestDto;
 import com.jobsync.jobysncapi.security.service.dto.AuthenticationResponseDto;
 import com.jobsync.jobysncapi.security.service.dto.RegisterRequestDto;
