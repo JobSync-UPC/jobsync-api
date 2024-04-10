@@ -102,10 +102,16 @@ public class AuthenticationService {
 
         var user = userRepository.findByEmail(registerRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("Email or password is incorrect"));
+
+        var applicant = applicantRepository.findByEmail(registerRequest.getEmail()).orElse(null);
+        var recruiter = recruiterRepository.findByEmail(registerRequest.getEmail()).orElse(null);
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponseDto.builder()
                 .token(jwtToken)
                 .user(user)
+                .applicant(applicant)
+                .recruiter(recruiter)
                 .build();
     }
 }
