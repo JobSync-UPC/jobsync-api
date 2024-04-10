@@ -28,10 +28,13 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
+    private final CompanyRepository companyRepository;
+
     private final ModelMapper modelMapper;
 
     public CompanyController(CompanyRepository companyRepository, ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+        this.companyRepository = companyRepository;
     }
 
     @Operation(summary = "Get all companies")

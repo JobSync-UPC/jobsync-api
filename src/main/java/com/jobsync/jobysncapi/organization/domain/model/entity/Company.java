@@ -1,5 +1,6 @@
 package com.jobsync.jobysncapi.organization.domain.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jobsync.jobysncapi.recruiter.domain.model.entity.Recruiter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,5 +45,6 @@ public class Company {
     private Boolean enabled = true;
 
     @OneToMany(mappedBy = "company")
+    @JsonIgnore
     List<Recruiter> recruiters;
 }
