@@ -1,6 +1,6 @@
-package com.jobsync.jobysncapi.security.domain.persistence;
+package com.jobsync.jobysncapi.recruiter.domain.model.persistence;
 
-import com.jobsync.jobysncapi.security.domain.model.entity.Recruiter;
+import com.jobsync.jobysncapi.recruiter.domain.model.entity.Recruiter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
