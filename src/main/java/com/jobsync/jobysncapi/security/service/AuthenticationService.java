@@ -1,12 +1,14 @@
 package com.jobsync.jobysncapi.security.service;
 
+import com.jobsync.jobysncapi.applicant.model.entity.Applicant;
+import com.jobsync.jobysncapi.security.domain.model.entity.Recruiter;
 import com.jobsync.jobysncapi.security.domain.model.entity.*;
-import com.jobsync.jobysncapi.security.domain.persistence.ApplicantRepository;
+import com.jobsync.jobysncapi.applicant.model.persistence.ApplicantRepository;
 import com.jobsync.jobysncapi.security.domain.persistence.UserRepository;
 import com.jobsync.jobysncapi.security.domain.persistence.RecruiterRepository;
-import com.jobsync.jobysncapi.security.service.communication.AuthenticationRequest;
-import com.jobsync.jobysncapi.security.service.communication.AuthenticationResponse;
-import com.jobsync.jobysncapi.security.service.communication.RegisterRequest;
+import com.jobsync.jobysncapi.security.service.dto.AuthenticationRequestDto;
+import com.jobsync.jobysncapi.security.service.dto.AuthenticationResponseDto;
+import com.jobsync.jobysncapi.security.service.dto.RegisterRequestDto;
 import com.jobsync.jobysncapi.shared.exception.GlobalExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,53 +33,53 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
-    public AuthenticationResponse register(RegisterRequest registerRequest, Role role) {
+    public AuthenticationResponseDto register(RegisterRequestDto registerRequestDto, Role role) {
 
-        if(userRepository.existsByEmail(registerRequest.getEmail())){
+        if(userRepository.existsByEmail(registerRequestDto.getEmail())){
             throw new GlobalExceptionHandler("User","Email already exists");
         }
 
-        if(!registerRequest.getPassword().matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$")){
+        if(!registerRequestDto.getPassword().matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$")){
             throw new GlobalExceptionHandler("User","Password must contain at least one letter, at least one number, and be longer than six characters");
         }
 
-        if(!registerRequest.getEmail().matches("^(.+)@(.+)$")){
+        if(!registerRequestDto.getEmail().matches("^(.+)@(.+)$")){
             throw new GlobalExceptionHandler("User","Email is not valid");
         }
 
         if(role.equals(Role.ROLE_RECRUITER)){
             var recruiter = Recruiter.builder()
-                    .firstname(registerRequest.getFirstname())
-                    .lastname(registerRequest.getLastname())
-                    .email(registerRequest.getEmail())
-                    .password(passwordEncoder.encode(registerRequest.getPassword()))
-                    .profilePictureUrl(registerRequest.getProfilePictureUrl())
-                    .phoneNumber(registerRequest.getPhoneNumber())
-                    .country(registerRequest.getCountry())
+                    .firstname(registerRequestDto.getFirstname())
+                    .lastname(registerRequestDto.getLastname())
+                    .email(registerRequestDto.getEmail())
+                    .password(passwordEncoder.encode(registerRequestDto.getPassword()))
+                    .profilePictureUrl(registerRequestDto.getProfilePictureUrl())
+                    .phoneNumber(registerRequestDto.getPhoneNumber())
+                    .country(registerRequestDto.getCountry())
                     .role(role)
                     .enabled(Boolean.TRUE)
                     .build();
             recruiterRepository.save(recruiter);
             var jwtToken = jwtService.generateToken(recruiter);
-            return AuthenticationResponse.builder()
+            return AuthenticationResponseDto.builder()
                     .token(jwtToken)
                     .user(recruiter)
                     .build();
         } else {
             var applicant = Applicant.builder()
-                    .firstname(registerRequest.getFirstname())
-                    .lastname(registerRequest.getLastname())
-                    .email(registerRequest.getEmail())
-                    .password(passwordEncoder.encode(registerRequest.getPassword()))
-                    .profilePictureUrl(registerRequest.getProfilePictureUrl())
-                    .phoneNumber(registerRequest.getPhoneNumber())
-                    .country(registerRequest.getCountry())
+                    .firstname(registerRequestDto.getFirstname())
+                    .lastname(registerRequestDto.getLastname())
+                    .email(registerRequestDto.getEmail())
+                    .password(passwordEncoder.encode(registerRequestDto.getPassword()))
+                    .profilePictureUrl(registerRequestDto.getProfilePictureUrl())
+                    .phoneNumber(registerRequestDto.getPhoneNumber())
+                    .country(registerRequestDto.getCountry())
                     .role(role)
                     .enabled(Boolean.TRUE)
                     .build();
             applicantRepository.save(applicant);
             var jwtToken = jwtService.generateToken(applicant);
-            return AuthenticationResponse.builder()
+            return AuthenticationResponseDto.builder()
                     .token(jwtToken)
                     .user(applicant)
                     .build();
@@ -85,7 +87,7 @@ public class AuthenticationService {
     }
 
 
-    public AuthenticationResponse login(AuthenticationRequest registerRequest) {
+    public AuthenticationResponseDto login(AuthenticationRequestDto registerRequest) {
 
         try {
             authenticationManager.authenticate(
@@ -101,7 +103,7 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(registerRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("Email or password is incorrect"));
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDto.builder()
                 .token(jwtToken)
                 .user(user)
                 .build();

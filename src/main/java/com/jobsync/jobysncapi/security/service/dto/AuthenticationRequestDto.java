@@ -1,4 +1,4 @@
-package com.jobsync.jobysncapi.security.service.communication;
+package com.jobsync.jobysncapi.security.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+public class AuthenticationRequestDto {
     private String email;
     private String password;
 }
