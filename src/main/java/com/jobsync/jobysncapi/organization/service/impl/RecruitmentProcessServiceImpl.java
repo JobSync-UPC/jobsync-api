@@ -1,8 +1,10 @@
 package com.jobsync.jobysncapi.organization.service.impl;
 
 import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
+import com.jobsync.jobysncapi.organization.domain.model.entity.JobPost;
 import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentProcess;
 import com.jobsync.jobysncapi.organization.domain.persistence.CompanyRepository;
+import com.jobsync.jobysncapi.organization.domain.persistence.JobPostRepository;
 import com.jobsync.jobysncapi.organization.domain.persistence.RecruitmentProcessRepository;
 import com.jobsync.jobysncapi.organization.service.RecruitmentProcessService;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,8 +22,10 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
 
     private final CompanyRepository companyRepository;
 
+
     @Autowired
-    RecruitmentProcessServiceImpl(RecruitmentProcessRepository recruitmentProcessRepository, CompanyRepository companyRepository) {
+    RecruitmentProcessServiceImpl(RecruitmentProcessRepository recruitmentProcessRepository,
+                                  CompanyRepository companyRepository) {
         this.recruitmentProcessRepository = recruitmentProcessRepository;
         this.companyRepository = companyRepository;
     }
@@ -31,6 +35,7 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
 
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found"));
+
 
         RecruitmentProcess recruitmentProcess = new RecruitmentProcess();
         recruitmentProcess.setCompany(company);

@@ -1,5 +1,6 @@
 package com.jobsync.jobysncapi.organization.domain.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +27,6 @@ public class JobPost {
 
     @OneToOne
     @JoinColumn(name = "recruitment_processes_id", referencedColumnName = "id")
+    @JsonIgnore
     private RecruitmentProcess recruitmentProcess;
 }

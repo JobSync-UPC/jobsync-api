@@ -64,7 +64,12 @@ public class JobPostServiceImpl implements JobPostService {
                 .recruitmentProcess(recruitmentProcess)
                 .build();
 
-        return jobPostRepository.save(jobPost);
+        jobPost = jobPostRepository.save(jobPost);
+
+        recruitmentProcess.setJobPost(jobPost);
+        recruitmentProcessRepository.save(recruitmentProcess);
+
+        return jobPost;
     }
 
 
