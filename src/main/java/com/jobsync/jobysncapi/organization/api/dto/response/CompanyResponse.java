@@ -1,6 +1,6 @@
 package com.jobsync.jobysncapi.organization.api.dto.response;
 
-import com.jobsync.jobysncapi.security.domain.model.entity.Recruiter;
+import com.jobsync.jobysncapi.recruiter.domain.model.entity.Recruiter;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package com.jobsync.jobysncapi.recruiter.service;
 
 import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
-import com.jobsync.jobysncapi.organization.domain.model.persistence.CompanyRepository;
+import com.jobsync.jobysncapi.organization.domain.persistence.CompanyRepository;
 import com.jobsync.jobysncapi.recruiter.domain.model.entity.Recruiter;
 import com.jobsync.jobysncapi.recruiter.domain.model.persistence.RecruiterRepository;
 import com.jobsync.jobysncapi.shared.exception.GlobalExceptionHandler;
