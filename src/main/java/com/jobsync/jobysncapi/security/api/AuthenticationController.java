@@ -1,8 +1,8 @@
 package com.jobsync.jobysncapi.security.api;
 
-import com.jobsync.jobysncapi.security.service.communication.AuthenticationRequest;
-import com.jobsync.jobysncapi.security.service.communication.AuthenticationResponse;
-import com.jobsync.jobysncapi.security.service.communication.RegisterRequest;
+import com.jobsync.jobysncapi.security.service.dto.AuthenticationRequestDto;
+import com.jobsync.jobysncapi.security.service.dto.AuthenticationResponseDto;
+import com.jobsync.jobysncapi.security.service.dto.RegisterRequestDto;
 import com.jobsync.jobysncapi.security.domain.model.entity.Role;
 import com.jobsync.jobysncapi.security.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,37 +29,37 @@ public class AuthenticationController {
             @ApiResponse(description = "Successfully registered a recruiter",
                     responseCode = "201",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = RegisterRequest.class)))
+                            schema = @Schema(implementation = RegisterRequestDto.class)))
     })
     @PostMapping("/register-recruiter")
-    public ResponseEntity<AuthenticationResponse> registerRecruiter(
-            @RequestBody RegisterRequest registerRequest
+    public ResponseEntity<AuthenticationResponseDto> registerRecruiter(
+            @RequestBody RegisterRequestDto registerRequestDto
     ) {
-        return ResponseEntity.ok(authenticationService.register(registerRequest, Role.ROLE_RECRUITER));
+        return ResponseEntity.ok(authenticationService.register(registerRequestDto, Role.ROLE_RECRUITER));
     }
 
     @Operation(summary = "Register an applicant", responses = {
             @ApiResponse(description = "Successfully registered a recruiter",
                     responseCode = "201",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = RegisterRequest.class)))
+                            schema = @Schema(implementation = RegisterRequestDto.class)))
     })
     @PostMapping("/register-applicant")
-    public ResponseEntity<AuthenticationResponse> registerApplicant(
-            @RequestBody RegisterRequest registerRequest
+    public ResponseEntity<AuthenticationResponseDto> registerApplicant(
+            @RequestBody RegisterRequestDto registerRequestDto
     ) {
-        return ResponseEntity.ok(authenticationService.register(registerRequest, Role.ROLE_APPLICANT));
+        return ResponseEntity.ok(authenticationService.register(registerRequestDto, Role.ROLE_APPLICANT));
     }
 
     @Operation(summary = "User login", responses = {
             @ApiResponse(description = "Successfully logged in",
                     responseCode = "201",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = RegisterRequest.class)))
+                            schema = @Schema(implementation = RegisterRequestDto.class)))
     })
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(
-            @RequestBody AuthenticationRequest loginRequest
+    public ResponseEntity<AuthenticationResponseDto> login(
+            @RequestBody AuthenticationRequestDto loginRequest
     ) {
         return ResponseEntity.ok(authenticationService.login(loginRequest));
     }

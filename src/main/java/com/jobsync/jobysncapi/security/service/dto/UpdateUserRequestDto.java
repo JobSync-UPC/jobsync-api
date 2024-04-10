@@ -1,4 +1,4 @@
-package com.jobsync.jobysncapi.security.service.communication;
+package com.jobsync.jobysncapi.security.service.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateUserRequest {
+public class UpdateUserRequestDto {
     private String firstname;
     private String lastname;
     private String phoneNumber;

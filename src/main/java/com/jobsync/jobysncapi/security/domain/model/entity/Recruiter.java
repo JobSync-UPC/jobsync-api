@@ -1,6 +1,7 @@
 package com.jobsync.jobysncapi.security.domain.model.entity;
 
 import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
+import com.jobsync.jobysncapi.security.domain.model.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

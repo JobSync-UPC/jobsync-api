@@ -1,6 +1,5 @@
-package com.jobsync.jobysncapi.security.service.communication;
+package com.jobsync.jobysncapi.security.service.dto;
 
-import com.jobsync.jobysncapi.security.domain.model.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class RegisterRequestDto {
     private String firstname;
     private String lastname;
     private String email;

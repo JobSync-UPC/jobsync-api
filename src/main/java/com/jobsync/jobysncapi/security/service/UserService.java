@@ -3,7 +3,7 @@ package com.jobsync.jobysncapi.security.service;
 import com.jobsync.jobysncapi.security.domain.model.entity.User;
 import com.jobsync.jobysncapi.security.domain.persistence.UserRepository;
 
-import com.jobsync.jobysncapi.security.service.communication.UpdateUserRequest;
+import com.jobsync.jobysncapi.security.service.dto.UpdateUserRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public User updateUser(Long id, UpdateUserRequest updatedUser) {
+    public User updateUser(Long id, UpdateUserRequestDto updatedUser) {
         return userRepository.findById(id)
                 .map(user -> {
                     user.setFirstname(updatedUser.getFirstname());

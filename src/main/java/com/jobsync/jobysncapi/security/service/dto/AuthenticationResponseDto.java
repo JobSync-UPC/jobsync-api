@@ -1,4 +1,4 @@
-package com.jobsync.jobysncapi.security.service.communication;
+package com.jobsync.jobysncapi.security.service.dto;
 
 import com.jobsync.jobysncapi.security.domain.model.entity.User;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class AuthenticationResponseDto {
     private String token;
     private User user;
 }
