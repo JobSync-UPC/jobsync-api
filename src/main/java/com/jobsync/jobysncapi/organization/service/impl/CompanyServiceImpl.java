@@ -45,10 +45,56 @@ public class CompanyServiceImpl implements CompanyService {
             throw new IllegalArgumentException("Recruiter with id " + recruiterId + " not found");
         }
 
+        Recruiter recruiter = optionalRecruiter.get();
+
+        recruiter.setCompany(company);
+
+        recruiterRepository.save(recruiter);
+
         company.setRecruiter_owner_id(recruiterId);
 
+        company.getRecruiters().add(recruiter);
+
+        // Save the company
         return companyRepository.save(company);
     }
+
+    @Override
+    public Company addRecruiterToCompany(Long recruiterId, Long companyId) {
+        // Retrieve the recruiter by id
+        Optional<Recruiter> optionalRecruiter = recruiterRepository.findById(recruiterId);
+        if (optionalRecruiter.isEmpty()) {
+            throw new IllegalArgumentException("Recruiter with id " + recruiterId + " not found");
+        }
+
+        Recruiter recruiter = optionalRecruiter.get();
+
+        // Retrieve the company by id
+        Optional<Company> optionalCompany = companyRepository.findById(companyId);
+        if (optionalCompany.isEmpty()) {
+            throw new IllegalArgumentException("Company with id " + companyId + " not found");
+        }
+
+        // Check if recruiter already has a company
+        if (recruiter.getCompany() != null) {
+            throw new IllegalArgumentException("Recruiter with id already has a company");
+        }
+
+        Company company = optionalCompany.get();
+
+        recruiter.setCompany(company);
+
+        company.getRecruiters().add(recruiter);
+
+        // Save the recruiter
+        recruiterRepository.save(recruiter);
+
+        // Save the company
+        companyRepository.save(company);
+
+        return company;
+    }
+
 
     @Override
     public Company updateCompany(Long id, CompanyRequest companyRequest) {
@@ -73,7 +119,15 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void deleteCompany(Long companyId) {
+
         companyRepository.deleteById(companyId);
+
+        // for each recruiter in the company, set the company to null
+        Iterable<Recruiter> recruiters = recruiterRepository.findAllByCompanyId(companyId);
+        for (Recruiter recruiter : recruiters) {
+            recruiter.setCompany(null);
+            recruiterRepository.save(recruiter);
+        }
     }
 
     @Override
@@ -93,6 +147,14 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.findById(companyId)
                 .map(company -> {
                     company.setEnabled(Boolean.FALSE);
+
+                    // for each recruiter in the company, set the company to null
+                    Iterable<Recruiter> recruiters = recruiterRepository.findAllByCompanyId(companyId);
+                    for (Recruiter recruiter : recruiters) {
+                        recruiter.setCompany(null);
+                        recruiterRepository.save(recruiter);
+                    }
+
                     return companyRepository.save(company);
                 })
                 .orElseThrow(() -> new RuntimeException("Company not found"));
@@ -104,6 +166,14 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.findById(companyId)
                 .map(company -> {
                     company.setEnabled(Boolean.TRUE);
+
+                    // for each recruiter in the company, set the company to null
+                    Iterable<Recruiter> recruiters = recruiterRepository.findAllByCompanyId(companyId);
+                    for (Recruiter recruiter : recruiters) {
+                        recruiter.setCompany(company);
+                        recruiterRepository.save(recruiter);
+                    }
+
                     return companyRepository.save(company);
                 })
                 .orElseThrow(() -> new RuntimeException("Company not found"));

@@ -21,7 +21,5 @@ public interface CompanyService {
 
     public abstract Company enableCompany(Long companyId);
 
-
-
-
+    public abstract Company addRecruiterToCompany (Long companyId, Long recruiterId);
 }

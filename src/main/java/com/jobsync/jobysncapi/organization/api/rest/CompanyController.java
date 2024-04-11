@@ -6,6 +6,8 @@ import com.jobsync.jobysncapi.organization.api.dto.response.CompanyResponse;
 import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
 import com.jobsync.jobysncapi.organization.domain.persistence.CompanyRepository;
 import com.jobsync.jobysncapi.organization.service.CompanyService;
+import com.jobsync.jobysncapi.recruiter.domain.model.entity.Recruiter;
+import com.jobsync.jobysncapi.recruiter.domain.model.persistence.RecruiterRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,11 +32,14 @@ public class CompanyController {
 
     private final CompanyRepository companyRepository;
 
+    private final RecruiterRepository recruiterRepository;
+
     private final ModelMapper modelMapper;
 
-    public CompanyController(CompanyRepository companyRepository, ModelMapper modelMapper) {
+    public CompanyController(CompanyRepository companyRepository, RecruiterRepository recruiterRepository, ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
         this.companyRepository = companyRepository;
+        this.recruiterRepository = recruiterRepository;
     }
 
     @Operation(summary = "Get all companies")
@@ -71,6 +76,17 @@ public class CompanyController {
         Company updatedCompany = companyService.updateCompany(id, companyRequest);
 
         CompanyResponse companyResponse = modelMapper.map(updatedCompany, CompanyResponse.class);
+        return new ResponseEntity<>(companyResponse, HttpStatus.OK);
+    }
+
+
+    @Operation(summary = "Add recruiters to company")
+    @Transactional
+    @PutMapping("/{companyId}/add/recruiters/{recruiterId}")
+    public ResponseEntity<CompanyResponse> addRecruiterToCompany(@PathVariable("companyId") Long companyId,
+                                                                 @PathVariable("recruiterId") Long recruiterId) {
+        Company company = companyService.addRecruiterToCompany(recruiterId, companyId);
+        CompanyResponse companyResponse = modelMapper.map(company, CompanyResponse.class);
         return new ResponseEntity<>(companyResponse, HttpStatus.OK);
     }
 
