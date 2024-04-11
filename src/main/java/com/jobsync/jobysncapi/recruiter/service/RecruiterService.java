@@ -50,4 +50,22 @@ public class RecruiterService {
             recruiterRepository.save(recruiter);
         }
     }
+
+    public void leaveCompany(Long recruiterId) {
+        Recruiter recruiter = recruiterRepository.findById(recruiterId
+        ).orElseThrow(() -> new GlobalExceptionHandler("Recruiter","Recruiter not found"));
+
+        if (recruiter.getCompany() == null) {
+            throw new GlobalExceptionHandler("Recruiter","Recruiter does not have a company");
+        }
+        else {
+            // Remove the recruiter from the company
+            Company company = recruiter.getCompany();
+            company.getRecruiters().remove(recruiter);
+            companyRepository.save(company);
+
+            recruiter.setCompany(null);
+            recruiterRepository.save(recruiter);
+        }
+    }
 }

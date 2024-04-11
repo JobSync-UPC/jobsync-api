@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface RecruiterRepository extends JpaRepository<Recruiter, Long>{
     Optional<Recruiter> findByEmail(String email);
     List<Recruiter> findAll();
+    Iterable<Recruiter> findAllByCompanyId(Long companyId);
 }

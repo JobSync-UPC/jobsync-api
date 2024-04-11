@@ -56,6 +56,20 @@ public class RecruiterController {
         return recruiterService.findByEmail(email);
     }
 
+
+    @Operation(summary = "Delete recruiter from company", responses = {
+            @ApiResponse(description = "Recruiter added to company",
+                    responseCode = "201",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Recruiter.class)))
+    })
+    @PutMapping("{recruiterId}/leave-company")
+    public void deleteRecruiterFromCompany(@PathVariable Long recruiterId) {
+        recruiterService.leaveCompany(recruiterId);
+    }
+
+    /*
+
     @Operation(summary = "Add recruiter to company", responses = {
             @ApiResponse(description = "Recruiter added to company",
                     responseCode = "201",
@@ -66,4 +80,6 @@ public class RecruiterController {
     public void addRecruiterToCompany(@PathVariable Long recruiterId, @PathVariable Long companyId) {
         recruiterService.addRecruiterToCompany(recruiterId, companyId);
     }
+
+    */
 }
