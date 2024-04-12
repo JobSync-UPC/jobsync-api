@@ -24,4 +24,5 @@ public interface JobPostService {
     public abstract JobPost enableJobPost(Long jobPostId);
 
     public abstract JobPost disableJobPost(Long jobPostId);
+
 }
