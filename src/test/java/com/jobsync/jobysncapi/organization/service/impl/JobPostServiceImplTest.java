@@ -163,7 +163,7 @@ class JobPostServiceImplTest {
         JobPost jobPost = new JobPost();
         jobPost.setTitle("Software Engineer");
         jobPost.setDescription("Develop software applications");
-        jobPost.setEnabled(Boolean.TRUE);
+        jobPost.setEnabled(Boolean.FALSE);
 
         when(jobPostService.disableJobPost(anyLong())).thenReturn(jobPost);
 
