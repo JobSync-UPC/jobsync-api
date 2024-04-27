@@ -52,10 +52,10 @@ public class InterviewsServiceImpl implements InterviewsService {
     }
 
     @Override
-    public Iterable<InterviewResponse> getAllInterviews(){
+    public Iterable<Interviews> getAllInterviews(){
         Iterable<Interviews> interviews = interviewsRepository.findAll();
 
-        Type listType = new TypeToken<List<InterviewResponse>>(){}.getType();
+        Type listType = new TypeToken<List<Interviews>>(){}.getType();
         return modelMapper.map(interviews, listType);
     }
     @Override

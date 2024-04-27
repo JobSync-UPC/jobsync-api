@@ -48,16 +48,16 @@ public class EvaluationServiceImpl implements EvaluationsService {
     }
 
     @Override
-    public void deleteEvlauation(Long evaluationId){
+    public void deleteEvaluation(Long evaluationId){
         evaluationsRepository.deleteById(evaluationId);
 
     }
 
     @Override
-    public Iterable<EvaluationsResponse> getAllEvaluations(){
+    public Iterable<Evaluations> getAllEvaluations(){
         Iterable<Evaluations> evaluations = evaluationsRepository.findAll();
 
-        Type listType =  new TypeToken<List<EvaluationsResponse>>() {}.getType();
+        Type listType =  new TypeToken<List<Evaluations>>() {}.getType();
         return modelMapper.map(evaluations, listType);
     }
 

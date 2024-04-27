@@ -7,7 +7,7 @@ import com.jobsync.jobysncapi.task.domain.model.entity.Evaluations;
 public interface EvaluationsService {
     public abstract Evaluations createEvaluations(EvaluationsRequest evaluationsRequest);
     public abstract Evaluations updateEvaluations(Long id, EvaluationsRequest evaluationsRequest);
-    public abstract void deleteEvlauation(Long evaluationId);
-    public Iterable<EvaluationsResponse> getAllEvaluations();
+    public abstract void deleteEvaluation(Long evaluationId);
+    public Iterable<Evaluations> getAllEvaluations();
     public abstract Evaluations getEvaluationById(Long id);
 }
