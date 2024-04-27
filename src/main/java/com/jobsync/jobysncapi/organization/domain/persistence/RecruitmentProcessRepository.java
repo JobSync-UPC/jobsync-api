@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface RecruitmentProcessRepository extends JpaRepository<RecruitmentProcess, Long> {
+public interface    RecruitmentProcessRepository extends JpaRepository<RecruitmentProcess, Long> {
 
     RecruitmentProcess findByCompanyId(Long companyId);
 
