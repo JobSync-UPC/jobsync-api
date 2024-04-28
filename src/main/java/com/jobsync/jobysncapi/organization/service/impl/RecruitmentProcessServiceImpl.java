@@ -40,7 +40,6 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
         RecruitmentProcess recruitmentProcess = new RecruitmentProcess();
         recruitmentProcess.setCompany(company);
         recruitmentProcess.setCreated_date(new Date());
-
         recruitmentProcess = recruitmentProcessRepository.save(recruitmentProcess);
 
         return recruitmentProcess;
