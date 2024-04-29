@@ -23,7 +23,6 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final CloudinaryClient cloudinaryClient;
 
     @Operation(summary = "Get all users", responses = {
             @ApiResponse(description = "All users found",
@@ -100,7 +99,6 @@ public class UserController {
     })
     @PostMapping("/profile-picture/{id}")
     public User updateProfilePicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
-        String profilePictureUrl = cloudinaryClient.uploadImage(file);
-        return userService.updateProfilePicture(id, profilePictureUrl);
+        return userService.updateProfilePicture(id, file);
     }
 }
