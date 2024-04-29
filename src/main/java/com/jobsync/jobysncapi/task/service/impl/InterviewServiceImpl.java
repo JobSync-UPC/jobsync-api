@@ -3,13 +3,10 @@ package com.jobsync.jobysncapi.task.service.impl;
 import com.google.common.reflect.TypeToken;
 import com.jobsync.jobysncapi.shared.exception.GlobalExceptionHandler;
 import com.jobsync.jobysncapi.task.api.dto.request.InterviewRequest;
-import com.jobsync.jobysncapi.task.api.dto.response.InterviewResponse;
-import com.jobsync.jobysncapi.task.domain.model.entity.Evaluations;
-import com.jobsync.jobysncapi.task.domain.model.entity.Interviews;
+import com.jobsync.jobysncapi.task.domain.model.entity.Interview;
 import com.jobsync.jobysncapi.task.domain.persistance.InterviewsRepository;
-import com.jobsync.jobysncapi.task.service.InterviewsService;
+import com.jobsync.jobysncapi.task.service.InterviewService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.description.method.MethodDescription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,30 +15,30 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class InterviewsServiceImpl implements InterviewsService {
+public class InterviewServiceImpl implements InterviewService {
 
     private final ModelMapper modelMapper;
     private final InterviewsRepository interviewsRepository;
 
 
     @Autowired
-    public InterviewsServiceImpl(InterviewsRepository interviewsRepository, ModelMapper modelMapper){
+    public InterviewServiceImpl(InterviewsRepository interviewsRepository, ModelMapper modelMapper){
         this.interviewsRepository = interviewsRepository;
         this.modelMapper = modelMapper;
     }
     @Override
-    public Interviews createInterview (InterviewRequest interviewRequest){
-        Interviews interviews = modelMapper.map(interviewRequest, Interviews.class);
-        return interviewsRepository.save(interviews);
+    public Interview createInterview (InterviewRequest interviewRequest){
+        Interview interview = modelMapper.map(interviewRequest, Interview.class);
+        return interviewsRepository.save(interview);
     }
 
     @Override
-    public Interviews updateInterviews(Long id, InterviewRequest interviewRequest){
-        Optional<Interviews> optionalInterviews = interviewsRepository.findById(id);
+    public Interview updateInterviews(Long id, InterviewRequest interviewRequest){
+        Optional<Interview> optionalInterviews = interviewsRepository.findById(id);
         if(optionalInterviews.isEmpty()){
             throw new GlobalExceptionHandler("Interview", "interview with " + " not found");
         }
-        Interviews existingInterview = optionalInterviews.get();
+        Interview existingInterview = optionalInterviews.get();
 
         existingInterview.setTitle(interviewRequest.getTitle());
         existingInterview.setStart_date(interviewRequest.getStart_date());
@@ -52,10 +49,10 @@ public class InterviewsServiceImpl implements InterviewsService {
     }
 
     @Override
-    public Iterable<Interviews> getAllInterviews(){
-        Iterable<Interviews> interviews = interviewsRepository.findAll();
+    public Iterable<Interview> getAllInterviews(){
+        Iterable<Interview> interviews = interviewsRepository.findAll();
 
-        Type listType = new TypeToken<List<Interviews>>(){}.getType();
+        Type listType = new TypeToken<List<Interview>>(){}.getType();
         return modelMapper.map(interviews, listType);
     }
     @Override
@@ -64,7 +61,7 @@ public class InterviewsServiceImpl implements InterviewsService {
 
     }
     @Override
-    public Interviews getInterviewById(Long id){ return interviewsRepository.findById(id).orElse(null);}
+    public Interview getInterviewById(Long id){ return interviewsRepository.findById(id).orElse(null);}
 
 
 

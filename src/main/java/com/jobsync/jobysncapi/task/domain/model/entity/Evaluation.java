@@ -8,18 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "interviews")
-public class Interviews {
+@Table(name = "evaluations")
+public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,13 +25,11 @@ public class Interviews {
     @Size(min = 1, max = 50)
     private String title;
 
-    private Date start_date;
+    @NotNull
+    @NotBlank
+    @Size(min = 1, max = 250)
+    private String description;
 
-    private Date end_date;
-
-    @Fetch(FetchMode.JOIN)
-    @Column(name = "link_url")
-    private String linkurl;
-
-
+    @OneToOne(mappedBy = "evaluation")
+    private Task task;
 }

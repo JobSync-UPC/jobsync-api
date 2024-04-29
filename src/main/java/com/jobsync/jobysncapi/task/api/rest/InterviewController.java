@@ -1,8 +1,8 @@
 package com.jobsync.jobysncapi.task.api.rest;
 
 import com.jobsync.jobysncapi.task.api.dto.request.InterviewRequest;
-import com.jobsync.jobysncapi.task.domain.model.entity.Interviews;
-import com.jobsync.jobysncapi.task.service.InterviewsService;
+import com.jobsync.jobysncapi.task.domain.model.entity.Interview;
+import com.jobsync.jobysncapi.task.service.InterviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,40 +15,40 @@ import org.springframework.web.bind.annotation.*;
 public class InterviewController {
 
     @Autowired
-    private InterviewsService interviewsService;
+    private InterviewService interviewService;
 
     @Operation(summary = "Get all interviews")
     @Transactional(readOnly = true)
     @GetMapping("/")
-    public Iterable<Interviews> getAllInterviews() {
-        return interviewsService.getAllInterviews();
+    public Iterable<Interview> getAllInterviews() {
+        return interviewService.getAllInterviews();
     }
 
     @Operation(summary = "Get interviews by id")
     @Transactional(readOnly = true)
     @GetMapping("/{id}")
-    public Interviews getInterviewById(@PathVariable Long id) {
-        return interviewsService.getInterviewById(id);
+    public Interview getInterviewById(@PathVariable Long id) {
+        return interviewService.getInterviewById(id);
     }
 
     @Operation(summary = "Create a new evaluation")
     @Transactional
     @PostMapping("/")
-    public Interviews createInterview(@RequestBody InterviewRequest interviewRequest) {
-        return interviewsService.createInterview(interviewRequest);
+    public Interview createInterview(@RequestBody InterviewRequest interviewRequest) {
+        return interviewService.createInterview(interviewRequest);
     }
 
     @Operation(summary = "Update a evaluation")
     @Transactional
     @PutMapping("/{id}")
-    public Interviews updateInterview(@PathVariable Long id, @RequestBody InterviewRequest interviewRequest) {
-        return interviewsService.updateInterviews(id, interviewRequest);
+    public Interview updateInterview(@PathVariable Long id, @RequestBody InterviewRequest interviewRequest) {
+        return interviewService.updateInterviews(id, interviewRequest);
     }
 
     @Operation(summary = "Delete a evaluation")
     @Transactional
     @DeleteMapping("/{id}")
     public void deleteInterview(@PathVariable Long id) {
-        interviewsService.deleteInterview(id);
+        interviewService.deleteInterview(id);
     }
 }

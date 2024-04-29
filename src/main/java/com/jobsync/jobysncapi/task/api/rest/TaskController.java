@@ -2,8 +2,8 @@ package com.jobsync.jobysncapi.task.api.rest;
 
 import com.jobsync.jobysncapi.task.api.dto.request.TaskRequest;
 import com.jobsync.jobysncapi.task.api.dto.request.UpdateTaskRequest;
-import com.jobsync.jobysncapi.task.domain.model.entity.Tasks;
-import com.jobsync.jobysncapi.task.service.TasksService;
+import com.jobsync.jobysncapi.task.domain.model.entity.Task;
+import com.jobsync.jobysncapi.task.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,40 +16,40 @@ import org.springframework.web.bind.annotation.*;
 public class TaskController {
 
     @Autowired
-    private TasksService tasksService;
+    private TaskService taskService;
 
     @Operation(summary = "Get all tasks")
     @Transactional(readOnly = true)
     @GetMapping("/")
-    public Iterable<Tasks> getAllTasks() {
-        return tasksService.getAllTasks();
+    public Iterable<Task> getAllTasks() {
+        return taskService.getAllTasks();
     }
 
     @Operation(summary = "Get tasks by id")
     @Transactional(readOnly = true)
     @GetMapping("/{id}")
-    public Tasks getTaskById(@PathVariable Long id) {
-        return tasksService.getTasksById(id);
+    public Task getTaskById(@PathVariable Long id) {
+        return taskService.getTasksById(id);
     }
 
     @Operation(summary = "Create a new task")
     @Transactional
     @PostMapping("/")
-    public Tasks createTask(@RequestBody TaskRequest taskRequest) {
-        return tasksService.createTask(taskRequest);
+    public Task createTask(@RequestBody TaskRequest taskRequest) {
+        return taskService.createTask(taskRequest);
     }
 
     @Operation(summary = "Update a task")
     @Transactional
     @PutMapping("/{id}")
-    public Tasks updateTask(@RequestBody UpdateTaskRequest updateTaskRequest) {
-        return tasksService.updateTask(updateTaskRequest);
+    public Task updateTask(@RequestBody UpdateTaskRequest updateTaskRequest) {
+        return taskService.updateTask(updateTaskRequest);
     }
 
     @Operation(summary = "Delete a evaluation")
     @Transactional
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
-        tasksService.deleteTask(id);
+        taskService.deleteTask(id);
     }
 }

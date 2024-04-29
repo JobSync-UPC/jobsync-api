@@ -1,6 +1,5 @@
 package com.jobsync.jobysncapi.task.domain.model.entity;
 
-import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +37,6 @@ public class Prompt {
 
     @ManyToOne
     @JoinColumn(name = "evaluations_id", referencedColumnName = "id")
-    private Evaluations evaluations;
+    private Evaluation evaluation;
 
 }

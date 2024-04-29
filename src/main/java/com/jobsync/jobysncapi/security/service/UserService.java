@@ -59,4 +59,13 @@ public class UserService {
                 })
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
+    public User updateProfilePicture(Long id, String profilePictureUrl) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setProfilePictureUrl(profilePictureUrl);
+                    return userRepository.save(user);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

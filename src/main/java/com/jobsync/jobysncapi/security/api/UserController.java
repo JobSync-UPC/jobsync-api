@@ -3,6 +3,7 @@ package com.jobsync.jobysncapi.security.api;
 import com.jobsync.jobysncapi.security.domain.model.entity.User;
 import com.jobsync.jobysncapi.security.service.UserService;
 import com.jobsync.jobysncapi.security.service.dto.UpdateUserRequestDto;
+import com.jobsync.jobysncapi.shared.clients.CloudinaryClient;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,7 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Tag(name = "User", description = "User edit, delete, and view user information")
@@ -20,6 +23,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final CloudinaryClient cloudinaryClient;
 
     @Operation(summary = "Get all users", responses = {
             @ApiResponse(description = "All users found",
@@ -85,5 +89,18 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+
+    @Operation(summary = "Update user profile picture", responses = {
+            @ApiResponse(description = "User found and profile picture updated",
+                    responseCode = "201",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class)))
+    })
+    @PostMapping("/profile-picture/{id}")
+    public User updateProfilePicture(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
+        String profilePictureUrl = cloudinaryClient.uploadImage(file);
+        return userService.updateProfilePicture(id, profilePictureUrl);
     }
 }

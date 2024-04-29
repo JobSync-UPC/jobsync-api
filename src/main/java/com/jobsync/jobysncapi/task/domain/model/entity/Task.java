@@ -1,5 +1,6 @@
 package com.jobsync.jobysncapi.task.domain.model.entity;
 
+import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentPhase;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,8 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "evaluations")
-public class Evaluations {
+@Table(name="tasks", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "title")
+})
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +33,15 @@ public class Evaluations {
     @Size(min = 1, max = 250)
     private String description;
 
+    @OneToOne
+    @JoinColumn(name = "interview_id", referencedColumnName = "id")
+    private Interview interview;
+
+    @OneToOne
+    @JoinColumn(name = "evaluations_id", referencedColumnName = "id")
+    private Evaluation evaluation;
+
+    @ManyToOne
+    @JoinColumn(name = "recruitment_phases", referencedColumnName = "id")
+    private RecruitmentPhase recruitmentPhase;
 }

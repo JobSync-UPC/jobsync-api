@@ -1,8 +1,8 @@
 package com.jobsync.jobysncapi.task.api.rest;
 
 import com.jobsync.jobysncapi.task.api.dto.request.EvaluationsRequest;
-import com.jobsync.jobysncapi.task.domain.model.entity.Evaluations;
-import com.jobsync.jobysncapi.task.service.EvaluationsService;
+import com.jobsync.jobysncapi.task.domain.model.entity.Evaluation;
+import com.jobsync.jobysncapi.task.service.EvaluationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,40 +15,40 @@ import org.springframework.web.bind.annotation.*;
 public class EvaluationController {
 
     @Autowired
-    private EvaluationsService evaluationsService;
+    private EvaluationService evaluationService;
 
     @Operation(summary = "Get all evaluations")
     @Transactional(readOnly = true)
     @GetMapping("/")
-    public Iterable<Evaluations> getAllEvaluations() {
-        return evaluationsService.getAllEvaluations();
+    public Iterable<Evaluation> getAllEvaluations() {
+        return evaluationService.getAllEvaluations();
     }
 
     @Operation(summary = "Get evaluation by id")
     @Transactional(readOnly = true)
     @GetMapping("/{id}")
-    public Evaluations getEvaluationById(@PathVariable Long id) {
-        return evaluationsService.getEvaluationById(id);
+    public Evaluation getEvaluationById(@PathVariable Long id) {
+        return evaluationService.getEvaluationById(id);
     }
 
     @Operation(summary = "Create a new evaluation")
     @Transactional
     @PostMapping("/")
-    public Evaluations createEvaluation(@RequestBody EvaluationsRequest evaluationsRequest) {
-        return evaluationsService.createEvaluations(evaluationsRequest);
+    public Evaluation createEvaluation(@RequestBody EvaluationsRequest evaluationsRequest) {
+        return evaluationService.createEvaluations(evaluationsRequest);
     }
 
     @Operation(summary = "Update a evaluation")
     @Transactional
     @PutMapping("/{id}")
-    public Evaluations updateEvaluation(@PathVariable Long id, @RequestBody EvaluationsRequest evaluationsRequest) {
-        return evaluationsService.updateEvaluations(id, evaluationsRequest);
+    public Evaluation updateEvaluation(@PathVariable Long id, @RequestBody EvaluationsRequest evaluationsRequest) {
+        return evaluationService.updateEvaluations(id, evaluationsRequest);
     }
 
     @Operation(summary = "Delete a evaluation")
     @Transactional
     @DeleteMapping("/{id}")
     public void deleteEvaluation(@PathVariable Long id) {
-        evaluationsService.deleteEvaluation(id);
+        evaluationService.deleteEvaluation(id);
     }
 }

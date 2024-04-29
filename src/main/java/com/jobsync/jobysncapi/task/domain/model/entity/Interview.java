@@ -1,6 +1,5 @@
 package com.jobsync.jobysncapi.task.domain.model.entity;
 
-import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,26 +8,34 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "answers")
-public class Answer {
+@Table(name = "interviews")
+public class Interview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @NotBlank
-    @Size(min = 1, max = 250)
-    private String description;
+    @Size(min = 1, max = 50)
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "prompt_id", referencedColumnName = "id")
-    private Prompt prompt;
+    private Date start_date;
+
+    private Date end_date;
+
+    @Fetch(FetchMode.JOIN)
+    @Column(name = "link_url")
+    private String linkurl;
 
 
 }
