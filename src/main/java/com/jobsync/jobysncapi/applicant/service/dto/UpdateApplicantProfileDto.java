@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateApplicantProfileDto {
-    private String cvUrl;
     private String linkedInUrl;
     private String portfolioUrl;
 }

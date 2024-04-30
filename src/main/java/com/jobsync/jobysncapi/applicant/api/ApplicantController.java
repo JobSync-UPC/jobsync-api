@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.sql.Update;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "Applicant", description = "Edit and view applicant information")
 @RestController
@@ -51,5 +52,16 @@ public class ApplicantController {
     @PutMapping("/{id}")
     public Applicant updateApplicant(@PathVariable Long id, @RequestBody UpdateApplicantProfileDto updatedApplicant) {
         return applicantService.updateApplicant(id, updatedApplicant);
+    }
+
+    @Operation(summary = "Update applicant CV file URL", responses = {
+            @ApiResponse(description = "Applicant found",
+                    responseCode = "201",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UpdateApplicantProfileDto.class)))
+    })
+    @PostMapping("/{id}/cv")
+    public Applicant updateApplicantCV(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        return applicantService.updateApplicantCV(id, file);
     }
 }
