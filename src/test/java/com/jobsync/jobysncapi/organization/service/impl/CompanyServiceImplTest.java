@@ -38,16 +38,8 @@ class CompanyServiceImplTest {
     void createCompany() {
 
         CompanyRequest companyRequest = new CompanyRequest();
-        companyRequest.setName("Company Name");
-        companyRequest.setAddress("Company Address");
-        companyRequest.setCountry("Company Country");
-        companyRequest.setWebsite("Company Website");
 
         Company company = new Company();
-        company.setName("Company Name");
-        company.setAddress("Company Address");
-        company.setCountry("Company Country");
-        company.setWebsite("Company Website");
         company.setRecruiters(new ArrayList<>()); // Inicializa la lista de reclutadores
 
         when(modelMapper.map(any(), any())).thenReturn(company);
