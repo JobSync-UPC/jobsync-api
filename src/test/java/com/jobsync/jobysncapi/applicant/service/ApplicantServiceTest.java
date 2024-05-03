@@ -17,4 +17,9 @@ class ApplicantServiceTest {
     @Test
     void updateApplicant() {
     }
+
+    @Test
+    void updateApplicantCV() {
+
+    }
 }
