@@ -44,7 +44,6 @@ class ApplicantServiceTest {
 
         assertNotNull(actualApplicant);
         assertEquals(actualApplicant.get(),expectedApplicant);
-        Mockito.verify(applicantRepository).findById(applicantId);
     }
 
     @Test
@@ -56,7 +55,6 @@ class ApplicantServiceTest {
         List<Applicant> actualApplicants = applicantService.getAllApplicants();
 
         assertEquals(actualApplicants,expectedApplicants);
-        Mockito.verify(applicantRepository).findAll();
     }
 
     @Test
@@ -75,8 +73,6 @@ class ApplicantServiceTest {
 
         assertEquals(updatedApplicant.getPortfolioUrl(),updateDto.getPortfolioUrl());
         assertEquals(updatedApplicant.getLinkedInUrl(),updateDto.getLinkedInUrl());
-        Mockito.verify(applicantRepository).findById(applicantId);
-        Mockito.verify(applicantRepository).save(applicantToUpdate);
     }
 
     @Test

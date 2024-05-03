@@ -22,7 +22,7 @@ public class ApplicantService {
 
     private final StorageClient storageClient;
 
-     public Optional<Applicant> getApplicantById(Long id) {
+    public Optional<Applicant> getApplicantById(Long id) {
          return applicantRepository.findById(id);
      }
 
