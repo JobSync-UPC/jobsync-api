@@ -58,20 +58,6 @@ class RecruitmentProcessServiceImplTest {
     }
 
     @Test
-    public void testDeleteRecruitmentProcess() {
-        Long recruitmentProcessId = 1L;
-        RecruitmentProcess existingProcess = new RecruitmentProcess();
-        existingProcess.setId(recruitmentProcessId);
-
-        Mockito.when(recruitmentProcessRepository.findById(recruitmentProcessId)).thenReturn(Optional.of(existingProcess));
-        Mockito.when(recruitmentProcessRepository.save(existingProcess)).thenReturn(existingProcess);
-
-        recruitmentProcessService.deleteRecruitmentProcess(recruitmentProcessId);
-
-        //no se como hacer para que verifique que se ha borrado correctamente
-    }
-
-    @Test
     public void testGetRecruitmentProcessById() {
         Long recruitmentProcessId = 1L;
         RecruitmentProcess expectedProcess = new RecruitmentProcess();

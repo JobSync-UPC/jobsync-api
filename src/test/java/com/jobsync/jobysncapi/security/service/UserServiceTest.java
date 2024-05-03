@@ -4,8 +4,11 @@ import com.jobsync.jobysncapi.security.domain.model.entity.User;
 import com.jobsync.jobysncapi.security.domain.persistence.UserRepository;
 import com.jobsync.jobysncapi.shared.clients.CloudinaryClient;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Mock
@@ -34,13 +37,12 @@ class UserServiceTest {
         String profilePictureUrl = "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
         MultipartFile file = mock(MultipartFile.class);
 
-        // Mocking de servicio Cloudinary Client
-        when(cloudinaryClient.uploadImage(file)).thenReturn(profilePictureUrl);
 
         // Mocking de servicio UserRepository
         User user = new User();
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        Mockito.when(cloudinaryClient.uploadImage(file)).thenReturn(profilePictureUrl);
+        Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        Mockito.when(userRepository.save(user)).thenReturn(user);
 
         // Act
         User updatedUser = userService.updateProfilePicture(userId, file);

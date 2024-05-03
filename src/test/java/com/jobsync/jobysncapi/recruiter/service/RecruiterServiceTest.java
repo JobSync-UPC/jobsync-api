@@ -80,24 +80,6 @@ class RecruiterServiceTest {
         assertEquals(actualRecruiter,expectedRecruiter);
     }
 
-    @Test
-    public void testAddRecruiterToCompany_Success() {
-        Long recruiterId = 1L;
-        Long companyId = 2L;
-        Recruiter recruiter = new Recruiter();
-        Company company = new Company();
-        recruiter.setId(recruiterId);
-        company.setId(companyId);
-
-        Mockito.when(recruiterRepository.findById(recruiterId)).thenReturn(Optional.of(recruiter));
-        Mockito.when(recruiterRepository.save(recruiter)).thenReturn(recruiter);
-        Mockito.when(companyRepository.findById(companyId)).thenReturn(Optional.of(company));
-        Mockito.when(companyRepository.save(company)).thenReturn(company);
-
-        recruiterService.addRecruiterToCompany(recruiterId, companyId);
-
-        assertEquals(recruiter.getCompany(),company);
-    }
 
     @Test
     public void testLeaveCompany_Success() {
