@@ -53,7 +53,8 @@ public class CompanyServiceImpl implements CompanyService {
 
         company.setRecruiter_owner_id(recruiterId);
 
-        company.getRecruiters().add(recruiter);
+        // Create the recruiters list for company
+        company.setRecruiters(List.of(recruiter));
 
         // Save the company
         return companyRepository.save(company);
