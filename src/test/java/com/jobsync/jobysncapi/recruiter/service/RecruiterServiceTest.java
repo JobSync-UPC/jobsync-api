@@ -90,9 +90,8 @@ class RecruiterServiceTest {
         company.setId(companyId);
 
         Mockito.when(recruiterRepository.findById(recruiterId)).thenReturn(Optional.of(recruiter));
-        Mockito.when(recruiterRepository.save(recruiter)).thenReturn(recruiter);
         Mockito.when(companyRepository.findById(companyId)).thenReturn(Optional.of(company));
-        Mockito.when(companyRepository.save(company)).thenReturn(company);
+
 
         recruiterService.addRecruiterToCompany(recruiterId, companyId);
 
