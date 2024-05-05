@@ -16,4 +16,5 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     List<JobPost> findByRecruitmentProcess(RecruitmentProcess recruitmentProcess);
     Boolean existsJobPostByTitle(String title);
 
+    Optional<Object> findByTitleAndRecruitmentProcess_CompanyId(String title, Long companyId);
 }

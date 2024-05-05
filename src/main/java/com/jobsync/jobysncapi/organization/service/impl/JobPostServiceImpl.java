@@ -56,11 +56,8 @@ public class JobPostServiceImpl implements JobPostService {
         Recruiter recruiter = optionalRecruiter.get();
 
         // Check if job post with title already exists within the same company
-        List<JobPost> jobPosts = getJobPostsByCompanyId(companyId);
-        for (JobPost jobPost : jobPosts) {
-            if (jobPost.getTitle().equals(jobPostRequest.getTitle())) {
-                throw new IllegalArgumentException("Job post with title already exists");
-            }
+        if (jobPostRepository.findByTitleAndRecruitmentProcess_CompanyId(jobPostRequest.getTitle(), companyId).isPresent()) {
+            throw new IllegalArgumentException("Job post with title " + jobPostRequest.getTitle() + " already exists");
         }
 
         // Job pos title and description are required and should not be empty

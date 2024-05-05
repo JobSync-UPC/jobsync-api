@@ -31,6 +31,4 @@ public class RecruitmentProcess {
     private Date created_date;
 
     private Boolean enabled = true;
-
-
 }
