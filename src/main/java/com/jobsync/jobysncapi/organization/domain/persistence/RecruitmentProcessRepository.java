@@ -9,8 +9,5 @@ import java.util.Optional;
 
 public interface    RecruitmentProcessRepository extends JpaRepository<RecruitmentProcess, Long> {
 
-    List<RecruitmentProcess> findByCompanyId(Long companyId);
-
-    List<RecruitmentProcess> findByCompany(Company company);
-
+    Iterable<RecruitmentProcess> findByCompanyId(Long companyId);
 }

@@ -13,6 +13,6 @@ public interface RecruitmentProcessService {
 
     Iterable<RecruitmentProcess> getAllRecruitmentProcesses();
 
-    List<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId);
+    Iterable<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId);
 }
 

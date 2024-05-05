@@ -82,7 +82,7 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
     }
 
     @Override
-    public List<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId) {
+    public Iterable<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId) {
         return recruitmentProcessRepository.findByCompanyId(companyId);
     }
 }
