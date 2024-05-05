@@ -37,19 +37,6 @@ public class JobPostController {
         return jobPostService.getJobPostById(id);
     }
 
-    @Operation(summary = "Get job posts by company id")
-    @Transactional(readOnly = true)
-    @GetMapping("/company/{companyId}")
-    public Iterable<JobPost> getJobPostsByCompanyId(@PathVariable Long companyId) {
-        return jobPostService.getJobPostsByCompanyId(companyId);
-    }
-
-    @Operation(summary = "Get job posts by recruiter id")
-    @Transactional(readOnly = true)
-    @GetMapping("/recruiter/{recruiterId}")
-    public Iterable<JobPost> getJobPostsByRecruiterId(@PathVariable Long recruiterId) {
-        return jobPostService.getJobPostsByRecruiterId(recruiterId);
-    }
 
     @Operation(summary = "Create a new job post")
     @Transactional

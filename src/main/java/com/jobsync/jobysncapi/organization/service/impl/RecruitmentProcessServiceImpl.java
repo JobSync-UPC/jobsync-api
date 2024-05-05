@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class RecruitmentProcessServiceImpl implements RecruitmentProcessService {
@@ -80,4 +81,8 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
                 .orElseThrow(() -> new EntityNotFoundException("RecruitmentProcess not found"));
     }
 
+    @Override
+    public List<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId) {
+        return recruitmentProcessRepository.findByCompanyId(companyId);
+    }
 }

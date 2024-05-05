@@ -2,6 +2,8 @@ package com.jobsync.jobysncapi.organization.service;
 
 import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentProcess;
 
+import java.util.List;
+
 public interface RecruitmentProcessService {
 
     RecruitmentProcess createRecruitmentProcess(Long companyId);
@@ -10,5 +12,7 @@ public interface RecruitmentProcessService {
     RecruitmentProcess getRecruitmentProcessById(Long recruitmentProcessId);
 
     Iterable<RecruitmentProcess> getAllRecruitmentProcesses();
+
+    List<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId);
 }
 

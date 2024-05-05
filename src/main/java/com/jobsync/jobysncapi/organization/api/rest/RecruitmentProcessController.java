@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Tag(name = "Recruitment Process Controller", description = "Create, read, update, and delete recruitment processes")
 @RestController
 @RequestMapping("/api/v1/recruitment-processes")
@@ -43,7 +45,9 @@ public class RecruitmentProcessController {
         recruitmentProcessService.deleteRecruitmentProcess(recruitmentProcessId);
     }
 
-
-
-
+    @Operation(summary = "Get Recruitment process by company id")
+    @GetMapping("/company/{companyId}")
+    public Iterable<RecruitmentProcess> getRecruitmentProcessByCompanyId(@PathVariable Long companyId) {
+        return recruitmentProcessService.getRecruitmentProcessesByCompanyId(companyId);
+    }
 }

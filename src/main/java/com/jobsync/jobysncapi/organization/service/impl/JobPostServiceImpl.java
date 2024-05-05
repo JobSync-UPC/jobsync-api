@@ -112,34 +112,6 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
     @Override
-    public List<JobPost> getJobPostsByCompanyId(Long companyId) {
-
-        RecruitmentProcess recruitmentProcess = recruitmentProcessRepository.findByCompanyId(companyId);
-        if (recruitmentProcess == null) {
-            return Collections.emptyList();
-        }
-        return jobPostRepository.findByRecruitmentProcess(recruitmentProcess);
-    }
-
-    @Override
-    public List<JobPost> getJobPostsByRecruiterId(Long recruiterId) {
-        Optional<Recruiter> optionalRecruiter = recruiterRepository.findById(recruiterId);
-        if (optionalRecruiter.isEmpty()) {
-            return Collections.emptyList();
-        }
-        Recruiter recruiter = optionalRecruiter.get();
-
-        List<RecruitmentProcess> recruitmentProcesses = recruitmentProcessRepository.findByCompany(recruiter.getCompany());
-        List<JobPost> jobPosts = new ArrayList<>();
-
-        for (RecruitmentProcess recruitmentProcess : recruitmentProcesses) {
-            jobPosts.addAll(jobPostRepository.findByRecruitmentProcess(recruitmentProcess));
-        }
-        return jobPosts;
-    }
-
-
-    @Override
     public JobPost disableJobPost(Long jobPostId) {
         return jobPostRepository.findById(jobPostId)
                 .map(jobPost -> {

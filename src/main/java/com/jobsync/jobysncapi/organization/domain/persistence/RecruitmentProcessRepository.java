@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface    RecruitmentProcessRepository extends JpaRepository<RecruitmentProcess, Long> {
 
-    RecruitmentProcess findByCompanyId(Long companyId);
+    List<RecruitmentProcess> findByCompanyId(Long companyId);
 
     List<RecruitmentProcess> findByCompany(Company company);
 
