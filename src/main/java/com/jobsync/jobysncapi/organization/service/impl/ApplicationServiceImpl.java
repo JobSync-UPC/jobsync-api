@@ -10,6 +10,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.Optional;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -29,8 +30,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
     @Override
     public Application updateApplication(Long id, ApplicationRequest applicationRequest){
-        Application application = modelMapper.map(applicationRequest, Application.class);
-        application.setId(id);
+        Optional<Application> optionalApplication = applicationRepository.findById(id);
+
+        if (optionalApplication.isEmpty()) {
+            throw new IllegalArgumentException("Application with id " + id + " not found");
+        }
+        Application application = optionalApplication.get();
+        application.setApplicant(applicationRequest.getApplicant());
+        application.setRecruitmentProcess(applicationRequest.getRecruitmentProcess());
+
         return applicationRepository.save(application);
 
     }
