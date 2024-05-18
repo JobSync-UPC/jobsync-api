@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.EnableMBeanExport;
 
 @Data
 @Builder
@@ -28,6 +29,9 @@ public class Application {
     @JoinColumn(name = "applicant_id", referencedColumnName = "id")
     private Applicant applicant;
 
+    @ManyToOne
+    @JoinColumn(name = "recruitment_processes_id", referencedColumnName = "id")
+    private RecruitmentProcess recruitmentProcess;
 
 
 
