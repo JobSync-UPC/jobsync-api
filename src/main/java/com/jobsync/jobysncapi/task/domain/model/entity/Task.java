@@ -1,5 +1,6 @@
 package com.jobsync.jobysncapi.task.domain.model.entity;
 
+import com.jobsync.jobysncapi.organization.domain.model.entity.ApplicationPhaseTask;
 import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentPhase;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -44,4 +48,7 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "recruitment_phases", referencedColumnName = "id")
     private RecruitmentPhase recruitmentPhase;
+
+    @OneToMany(mappedBy = "task")
+    private List<ApplicationPhaseTask> applicationPhaseTasks;
 }
