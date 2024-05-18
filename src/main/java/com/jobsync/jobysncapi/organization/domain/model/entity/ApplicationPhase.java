@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,5 +30,9 @@ public class ApplicationPhase {
     @ManyToOne
     @JoinColumn(name = "recruitment_phases_id", referencedColumnName = "id")
     private RecruitmentPhase recruitmentPhase;
+
+    @OneToMany(mappedBy = "applicationPhase")
+    private List<ApplicationPhaseTask> applicationPhaseTasks;
+
 
 }
