@@ -17,12 +17,7 @@ public interface JobPostService {
 
     public Iterable<JobPost> getAllJobPosts();
 
-    public abstract List<JobPost> getJobPostsByCompanyId(Long companyId);
-
-    public abstract List<JobPost> getJobPostsByRecruiterId(Long recruiterId);
-
     public abstract JobPost enableJobPost(Long jobPostId);
 
     public abstract JobPost disableJobPost(Long jobPostId);
-
 }

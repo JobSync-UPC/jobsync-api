@@ -56,11 +56,8 @@ public class JobPostServiceImpl implements JobPostService {
         Recruiter recruiter = optionalRecruiter.get();
 
         // Check if job post with title already exists within the same company
-        List<JobPost> jobPosts = getJobPostsByCompanyId(companyId);
-        for (JobPost jobPost : jobPosts) {
-            if (jobPost.getTitle().equals(jobPostRequest.getTitle())) {
-                throw new IllegalArgumentException("Job post with title already exists");
-            }
+        if (jobPostRepository.findByTitleAndRecruitmentProcess_CompanyId(jobPostRequest.getTitle(), companyId).isPresent()) {
+            throw new IllegalArgumentException("Job post with title " + jobPostRequest.getTitle() + " already exists");
         }
 
         // Job pos title and description are required and should not be empty
@@ -113,34 +110,6 @@ public class JobPostServiceImpl implements JobPostService {
     public Iterable<JobPost> getAllJobPosts() {
         return jobPostRepository.findAll();
     }
-
-    @Override
-    public List<JobPost> getJobPostsByCompanyId(Long companyId) {
-
-        RecruitmentProcess recruitmentProcess = recruitmentProcessRepository.findByCompanyId(companyId);
-        if (recruitmentProcess == null) {
-            return Collections.emptyList();
-        }
-        return jobPostRepository.findByRecruitmentProcess(recruitmentProcess);
-    }
-
-    @Override
-    public List<JobPost> getJobPostsByRecruiterId(Long recruiterId) {
-        Optional<Recruiter> optionalRecruiter = recruiterRepository.findById(recruiterId);
-        if (optionalRecruiter.isEmpty()) {
-            return Collections.emptyList();
-        }
-        Recruiter recruiter = optionalRecruiter.get();
-
-        List<RecruitmentProcess> recruitmentProcesses = recruitmentProcessRepository.findByCompany(recruiter.getCompany());
-        List<JobPost> jobPosts = new ArrayList<>();
-
-        for (RecruitmentProcess recruitmentProcess : recruitmentProcesses) {
-            jobPosts.addAll(jobPostRepository.findByRecruitmentProcess(recruitmentProcess));
-        }
-        return jobPosts;
-    }
-
 
     @Override
     public JobPost disableJobPost(Long jobPostId) {
