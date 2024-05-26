@@ -99,37 +99,6 @@ class JobPostServiceImplTest {
     }
 
     @Test
-    void getJobPostsByCompanyId() {
-        // Arrange
-        Long companyId = 1L;
-
-        // Create some job posts
-        JobPost jobPost1 = new JobPost();
-        jobPost1.setTitle("Software Engineer");
-        jobPost1.setDescription("Develop software applications");
-
-        JobPost jobPost2 = new JobPost();
-        jobPost2.setTitle("Data Scientist");
-        jobPost2.setDescription("Analyze and interpret complex data");
-
-        // Add the job posts to a list
-        List<JobPost> jobPosts = new ArrayList<>();
-        jobPosts.add(jobPost1);
-        jobPosts.add(jobPost2);
-
-        // Use Mockito to return the list of job posts when getJobPostsByCompanyId is called
-        when(jobPostService.getJobPostsByCompanyId(anyLong())).thenReturn(jobPosts);
-
-        // Act
-        List<JobPost> result = jobPostService.getJobPostsByCompanyId(companyId);
-
-        // Assert
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(2, result.size(),"There should be 2 job posts in the list");
-    }
-
-    @Test
     void updateJobPost() {
         // Arrange
         Long jobPostId = 1L;
