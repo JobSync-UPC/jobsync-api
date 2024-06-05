@@ -1,5 +1,6 @@
 package com.jobsync.jobysncapi.organization.domain.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -30,6 +32,7 @@ public class RecruitmentPhase {
 
     private String description;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "recruitment_processes_id", referencedColumnName = "id")
     private RecruitmentProcess recruitmentProcess;

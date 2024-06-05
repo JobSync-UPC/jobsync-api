@@ -1,13 +1,19 @@
 package com.jobsync.jobysncapi.organization.service.impl;
 
+import com.jobsync.jobysncapi.organization.api.dto.request.RecruitmentPhaseRequest;
 import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
 import com.jobsync.jobysncapi.organization.domain.model.entity.JobPost;
+import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentPhase;
 import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentProcess;
 import com.jobsync.jobysncapi.organization.domain.persistence.CompanyRepository;
 import com.jobsync.jobysncapi.organization.domain.persistence.JobPostRepository;
+import com.jobsync.jobysncapi.organization.domain.persistence.RecruitmentPhaseRepository;
 import com.jobsync.jobysncapi.organization.domain.persistence.RecruitmentProcessRepository;
+import com.jobsync.jobysncapi.organization.service.RecruitmentPhaseService;
 import com.jobsync.jobysncapi.organization.service.RecruitmentProcessService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +27,17 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
 
     private final RecruitmentProcessRepository recruitmentProcessRepository;
 
+    private final RecruitmentPhaseService recruitmentPhaseService;
+
     private final CompanyRepository companyRepository;
 
 
     @Autowired
     RecruitmentProcessServiceImpl(RecruitmentProcessRepository recruitmentProcessRepository,
+                                  RecruitmentPhaseService recruitmentPhaseService,
                                   CompanyRepository companyRepository) {
         this.recruitmentProcessRepository = recruitmentProcessRepository;
+        this.recruitmentPhaseService = recruitmentPhaseService;
         this.companyRepository = companyRepository;
     }
 
@@ -41,10 +51,22 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
         RecruitmentProcess recruitmentProcess = new RecruitmentProcess();
         recruitmentProcess.setCompany(company);
         recruitmentProcess.setCreated_date(new Date());
+        recruitmentProcess.setEnabled(true);
+
         recruitmentProcess = recruitmentProcessRepository.save(recruitmentProcess);
 
-        return recruitmentProcess;
+        // Create default recruitment process phase
 
+        RecruitmentPhaseRequest recruitmentPhaseRequest = new RecruitmentPhaseRequest();
+        recruitmentPhaseRequest.setStartDate(new Date());
+        recruitmentPhaseRequest.setEndDate(new Date());
+        recruitmentPhaseRequest.setTitle("Applicants");
+        recruitmentPhaseRequest.setDescription("Applicants who have applied for the job.");
+        recruitmentPhaseRequest.setRecruitmentProcessId(recruitmentProcess.getId());
+
+        recruitmentPhaseService.createRecruitmentPhase(recruitmentPhaseRequest);
+
+        return recruitmentProcess;
     }
 
     @Override
