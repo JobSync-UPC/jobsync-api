@@ -7,23 +7,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.EnableMBeanExport;
+
+import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="applications", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
-})
+@Table(name="applications")
 public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer current_application_phase;
+    private Long current_application_phase;
+
+    private Date application_date;
+
+    private Boolean is_active;
 
     @ManyToOne
     @JoinColumn(name = "applicant_id", referencedColumnName = "id")
@@ -32,7 +35,4 @@ public class Application {
     @ManyToOne
     @JoinColumn(name = "recruitment_processes_id", referencedColumnName = "id")
     private RecruitmentProcess recruitmentProcess;
-
-
-
 }

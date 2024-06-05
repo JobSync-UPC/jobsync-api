@@ -8,10 +8,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Applications Controller", description = "Create, read, update, and delete applications")
 @RestController
@@ -34,51 +37,52 @@ public class ApplicationController {
         return applicationService.getAllApplications();
     }
 
-    @Operation(summary = "Get application by id")
-    @Transactional(readOnly = true)
-    @GetMapping("/{id}")
-    public ApplicationResponse getApplicationById(Long id) {
-        return applicationService.getApplicationById(id);
-    }
-    @Operation(summary = "Create application")
-    @Transactional
-    @PostMapping("/create/{id}")
-    public ResponseEntity<ApplicationResponse> createApplication(@PathVariable Long id,
-                                                                 @RequestBody ApplicationRequest applicationRequest) {
 
+    @Operation(summary = "Apply for a job by recruitment process id")
+    @Transactional
+    @PostMapping("/apply")
+    public ResponseEntity<ApplicationResponse> applyForJob(@RequestBody ApplicationRequest applicationRequest) {
         ValidateApplicationRequest(applicationRequest);
-
-        Application createdApplication = applicationService.createApplication(applicationRequest, id);
-        ApplicationResponse applicationResponse = modelMapper.map(createdApplication, ApplicationResponse.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(applicationResponse);
+        Application application = applicationService.applyForJob(applicationRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(application, ApplicationResponse.class));
     }
 
-
-    @Operation(summary = "Update application")
-    @Transactional
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ApplicationResponse> updateApplication(@PathVariable Long id,
-                                                                 @RequestBody ApplicationRequest applicationRequest) {
-        Application application = applicationService.updateApplication(id, applicationRequest);
-
-        ApplicationResponse applicationResponse = modelMapper.map(application, ApplicationResponse.class);
-        return ResponseEntity.ok(applicationResponse);
+    @Operation(summary = "Get applications by applicant id")
+    @Transactional(readOnly = true)
+    @GetMapping("/applicant/{id}")
+    public Iterable<ApplicationResponse> getApplicationsByApplicantId(@PathVariable Long id) {
+        return applicationService.getApplicationsByApplicantId(id);
     }
 
-    @Operation(summary = "Delete application")
+    @Operation(summary = "Get applications by recruitment process id")
+    @Transactional(readOnly = true)
+    @GetMapping("/recruitment-process/{id}")
+    public Iterable<ApplicationResponse> getApplicationsByRecruitmentProcessId(@PathVariable Long id) {
+        return applicationService.getApplicationsByRecruitmentProcessId(id);
+    }
+
+    @Operation(summary = "Update applicant application phase")
     @Transactional
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteApplication(@PathVariable Long id) {
-        applicationService.deleteApplication(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/update-phase/{applicationId}")
+    public ResponseEntity<ApplicationResponse> updateApplication(@PathVariable Long applicationId, @RequestParam("newPhaseId") Long newPhaseId) {
+        Application application = applicationService.updateApplicationPhase(applicationId, newPhaseId);
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(application, ApplicationResponse.class));
+    }
+
+    @Operation(summary = "Deactivate applicant application")
+    @Transactional
+    @PutMapping("/deactivate/{id}")
+    public ResponseEntity<ApplicationResponse> deactivateApplication(@PathVariable Long id) {
+        Application application = applicationService.deactivateApplication(id);
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapper.map(application, ApplicationResponse.class));
     }
 
 
     void ValidateApplicationRequest(ApplicationRequest applicationRequest) {
-        if (applicationRequest.getApplicant() == null ) {
+        if (applicationRequest.getApplicantId() == null ) {
             throw new IllegalArgumentException("Applicant is required");
         }
-        if (applicationRequest.getRecruitmentProcess() == null) {
+        if (applicationRequest.getRecruitmentProcessId() == null) {
             throw new IllegalArgumentException("Recruitment process is required");
         }
     }

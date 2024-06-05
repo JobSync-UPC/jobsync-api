@@ -6,8 +6,6 @@ import lombok.Data;
 
 @Data
 public class ApplicationRequest {
-
-    private Applicant applicant;
-
-    private RecruitmentProcess recruitmentProcess;
+    private Long applicantId;
+    private Long recruitmentProcessId;
 }
