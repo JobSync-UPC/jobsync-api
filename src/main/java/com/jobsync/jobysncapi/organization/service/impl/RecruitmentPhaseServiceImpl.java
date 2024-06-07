@@ -26,20 +26,13 @@ public class RecruitmentPhaseServiceImpl implements RecruitmentPhaseService {
     }
 
     @Override
-    public Iterable<RecruitmentPhaseResponse> getAllRecruitmentPhases(){
-        Iterable<RecruitmentPhase> recruitmentPhases = recruitmentPhaseRepository.findAll();
-        Type listType = new TypeToken<List<RecruitmentPhaseResponse>>() {}.getType();
-        return modelMapper.map(recruitmentPhases, listType);
+    public Iterable<RecruitmentPhase> getAllRecruitmentPhases(){
+        return recruitmentPhaseRepository.findAll();
     }
 
     @Override
-    public Optional<RecruitmentPhaseResponse> getRecruitmentPhaseById(Long recruitmentPhaseId){
-        Optional<RecruitmentPhase> optionalRecruitmentPhase = recruitmentPhaseRepository.findById(recruitmentPhaseId);
-        if (optionalRecruitmentPhase.isEmpty()) {
-            return Optional.empty();
-        }
-        RecruitmentPhase recruitmentPhase = optionalRecruitmentPhase.get();
-        return Optional.of(modelMapper.map(recruitmentPhase, RecruitmentPhaseResponse.class));
+    public RecruitmentPhase getRecruitmentPhaseById(Long recruitmentPhaseId){
+        return recruitmentPhaseRepository.findById(recruitmentPhaseId).get();
     }
 
     @Override

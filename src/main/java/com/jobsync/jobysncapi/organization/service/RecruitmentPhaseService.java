@@ -9,14 +9,12 @@ import java.util.Optional;
 public interface RecruitmentPhaseService {
 
 
-    public abstract Iterable<RecruitmentPhaseResponse> getAllRecruitmentPhases();
-    public abstract Optional<RecruitmentPhaseResponse> getRecruitmentPhaseById(Long recruitmentPhaseId);
+    public abstract Iterable<RecruitmentPhase> getAllRecruitmentPhases();
+    public abstract RecruitmentPhase getRecruitmentPhaseById(Long recruitmentPhaseId);
 
     public abstract RecruitmentPhase createRecruitmentPhase(RecruitmentPhaseRequest recruitmentPhaseRequest);
 
     public abstract RecruitmentPhase updateRecruitmentPhase(Long recruitmentPhaseId, RecruitmentPhaseRequest recruitmentPhaseRequest);
 
     public abstract void deleteRecruitmentPhase(Long recruitmentPhaseId);
-
-
 }

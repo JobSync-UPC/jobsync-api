@@ -9,6 +9,7 @@ import com.jobsync.jobysncapi.organization.domain.persistence.CompanyRepository;
 import com.jobsync.jobysncapi.organization.domain.persistence.JobPostRepository;
 import com.jobsync.jobysncapi.organization.domain.persistence.RecruitmentPhaseRepository;
 import com.jobsync.jobysncapi.organization.domain.persistence.RecruitmentProcessRepository;
+import com.jobsync.jobysncapi.organization.service.JobPostService;
 import com.jobsync.jobysncapi.organization.service.RecruitmentPhaseService;
 import com.jobsync.jobysncapi.organization.service.RecruitmentProcessService;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,7 +24,7 @@ import java.util.List;
 @Service
 public class RecruitmentProcessServiceImpl implements RecruitmentProcessService {
 
-
+    private final JobPostRepository jobPostRepository;
 
     private final RecruitmentProcessRepository recruitmentProcessRepository;
 
@@ -35,10 +36,12 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
     @Autowired
     RecruitmentProcessServiceImpl(RecruitmentProcessRepository recruitmentProcessRepository,
                                   RecruitmentPhaseService recruitmentPhaseService,
-                                  CompanyRepository companyRepository) {
+                                  CompanyRepository companyRepository,
+                                  JobPostRepository jobPostRepository) {
         this.recruitmentProcessRepository = recruitmentProcessRepository;
         this.recruitmentPhaseService = recruitmentPhaseService;
         this.companyRepository = companyRepository;
+        this.jobPostRepository = jobPostRepository;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
         recruitmentPhaseRequest.setStartDate(new Date());
         recruitmentPhaseRequest.setEndDate(new Date());
         recruitmentPhaseRequest.setTitle("Applicants");
-        recruitmentPhaseRequest.setDescription("Applicants who have applied for the job.");
+        recruitmentPhaseRequest.setDescription("New applicants");
         recruitmentPhaseRequest.setRecruitmentProcessId(recruitmentProcess.getId());
 
         recruitmentPhaseService.createRecruitmentPhase(recruitmentPhaseRequest);
@@ -70,7 +73,7 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
     }
 
     @Override
-    public RecruitmentProcess updateRecruitmentProcess(Long recruitmentProcessId) {
+    public RecruitmentProcess updateEnabledRecruitmentProcess(Long recruitmentProcessId) {
 
         RecruitmentProcess recruitmentProcess = recruitmentProcessRepository.findById(recruitmentProcessId)
                 .orElseThrow(() -> new EntityNotFoundException("RecruitmentProcess not found"));
@@ -78,8 +81,15 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
         recruitmentProcess.setEnabled(!recruitmentProcess.getEnabled());
         recruitmentProcess = recruitmentProcessRepository.save(recruitmentProcess);
 
+        // Disable job post
+        JobPost jobPost = jobPostRepository.findById(recruitmentProcess.getJobPost().getId()).get();
+
+        jobPost.setEnabled(!jobPost.getEnabled());
+        jobPostRepository.save(jobPost);
+
         return recruitmentProcess;
     }
+
 
     @Override
     public void deleteRecruitmentProcess(Long recruitmentProcessId) {
