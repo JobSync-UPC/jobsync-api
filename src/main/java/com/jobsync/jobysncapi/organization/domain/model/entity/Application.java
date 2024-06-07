@@ -22,7 +22,7 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long current_application_phase;
+    private Long currentApplicationPhase;
 
     private Date application_date;
 

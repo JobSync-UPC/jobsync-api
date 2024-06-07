@@ -33,4 +33,10 @@ public class RecruitmentPhaseController {
     public RecruitmentPhase getRecruitmentPhaseById(@PathVariable Long recruitmentPhaseId) {
         return recruitmentPhaseService.getRecruitmentPhaseById(recruitmentPhaseId);
     }
+
+    @Operation(summary = "Get all recruitment phases")
+    @GetMapping("/")
+    public Iterable<RecruitmentPhase> getAllRecruitmentPhases() {
+        return recruitmentPhaseService.getAllRecruitmentPhases();
+    }
 }
