@@ -107,4 +107,9 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
     public Iterable<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId) {
         return recruitmentProcessRepository.findByCompanyId(companyId);
     }
+
+    @Override
+    public boolean isRecruitmentProcessFromCompany(Long recruitmentProcessId, Long companyId) {
+        return recruitmentProcessRepository.existsByIdAndCompanyId(recruitmentProcessId, companyId);
+    }
 }
