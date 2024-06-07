@@ -83,7 +83,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setApplicant(optionalApplicant.get());
         application.setApplication_date(new Date());
         application.setIs_active(true);
-        application.setCurrent_application_phase(optionalRecruitmentProcess.get().getRecruitmentPhases().getFirst().getId()); // First phase of the recruitment process
+        application.setCurrentApplicationPhase(optionalRecruitmentProcess.get().getRecruitmentPhases().getFirst().getId()); // First phase of the recruitment process
 
         return applicationRepository.save(application);
     }
@@ -112,7 +112,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                             .findFirst()
                             .orElseThrow(() -> new IllegalArgumentException("Recruitment phase with id " + newPhaseId + " not found"));
 
-                    application.setCurrent_application_phase(newPhaseId);
+                    application.setCurrentApplicationPhase(newPhaseId);
 
                     return applicationRepository.save(application);
                 })

@@ -1,7 +1,12 @@
 package com.jobsync.jobysncapi.organization.api.rest;
 
 
+import com.jobsync.jobysncapi.organization.api.dto.request.RecruitmentPhaseRequest;
+import com.jobsync.jobysncapi.organization.domain.model.entity.JobPost;
+import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentPhase;
 import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentProcess;
+import com.jobsync.jobysncapi.organization.service.JobPostService;
+import com.jobsync.jobysncapi.organization.service.RecruitmentPhaseService;
 import com.jobsync.jobysncapi.organization.service.RecruitmentProcessService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,10 +36,10 @@ public class RecruitmentProcessController {
         return recruitmentProcessService.getRecruitmentProcessById(id);
     }
 
-    @Operation(summary = "Update recruitment process")
-    @GetMapping("/update/{recruitmentProcessId}")
-    public RecruitmentProcess updateRecruitmentProcess(@PathVariable Long recruitmentProcessId) {
-        return recruitmentProcessService.updateRecruitmentProcess(recruitmentProcessId);
+    @Operation(summary = "Finish/Reopen recruitment process")
+    @PutMapping("/update-enabled/{recruitmentProcessId}")
+    public RecruitmentProcess finishRecruitmentProcess(@PathVariable Long recruitmentProcessId) {
+        return recruitmentProcessService.updateEnabledRecruitmentProcess(recruitmentProcessId);
     }
 
     @Operation(summary = "Delete recruitment process")
@@ -54,5 +59,4 @@ public class RecruitmentProcessController {
     public boolean isRecruitmentProcessFromCompany(@RequestParam Long recruitmentProcessId, @RequestParam Long companyId) {
         return recruitmentProcessService.isRecruitmentProcessFromCompany(recruitmentProcessId, companyId);
     }
-
 }

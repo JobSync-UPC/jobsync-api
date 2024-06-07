@@ -7,7 +7,7 @@ import java.util.List;
 public interface RecruitmentProcessService {
 
     public abstract RecruitmentProcess createRecruitmentProcess(Long companyId);
-    public abstract RecruitmentProcess updateRecruitmentProcess(Long recruitmentProcessId);
+    public abstract RecruitmentProcess updateEnabledRecruitmentProcess(Long recruitmentProcessId);
     public abstract void deleteRecruitmentProcess(Long recruitmentProcessId);
     public abstract RecruitmentProcess getRecruitmentProcessById(Long recruitmentProcessId);
 

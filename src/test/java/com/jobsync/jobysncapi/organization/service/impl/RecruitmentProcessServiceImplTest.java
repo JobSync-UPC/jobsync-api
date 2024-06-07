@@ -52,7 +52,7 @@ class RecruitmentProcessServiceImplTest {
         Mockito.when(recruitmentProcessRepository.findById(recruitmentProcessId)).thenReturn(Optional.of(existingProcess));
         Mockito.when(recruitmentProcessRepository.save(existingProcess)).thenReturn(existingProcess);
 
-        RecruitmentProcess updatedProcess = recruitmentProcessService.updateRecruitmentProcess(recruitmentProcessId);
+        RecruitmentProcess updatedProcess = recruitmentProcessService.updateEnabledRecruitmentProcess(recruitmentProcessId);
 
         assertTrue(updatedProcess.getEnabled());
     }
