@@ -14,5 +14,6 @@ public interface RecruitmentProcessService {
     public abstract Iterable<RecruitmentProcess> getAllRecruitmentProcesses();
 
     public abstract Iterable<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId);
+    public abstract boolean isRecruitmentProcessFromCompany(Long recruitmentProcessId, Long companyId);
 }
 
