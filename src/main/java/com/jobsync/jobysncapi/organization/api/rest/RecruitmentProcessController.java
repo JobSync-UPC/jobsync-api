@@ -59,4 +59,10 @@ public class RecruitmentProcessController {
     public boolean isRecruitmentProcessFromCompany(@RequestParam Long recruitmentProcessId, @RequestParam Long companyId) {
         return recruitmentProcessService.isRecruitmentProcessFromCompany(recruitmentProcessId, companyId);
     }
+
+    @Operation(summary = "Get all active recruitment processes by job post")
+    @GetMapping("/active")
+    public Iterable<RecruitmentProcess> isRecruitmentProcessFromCompany() {
+        return recruitmentProcessService.getAllActiveRecruitmentProcesses();
+    }
 }

@@ -37,6 +37,10 @@ public class RecruitmentPhase {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "recruitment_processes_id", referencedColumnName = "id")
+    @JoinColumn(name = "recruitment_process_id", referencedColumnName = "id")
     private RecruitmentProcess recruitmentProcess;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "currentRecruitmentPhase")
+    private List<Application> applications;
 }

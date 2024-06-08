@@ -77,12 +77,12 @@ public class RecruitmentPhaseServiceImpl implements RecruitmentPhaseService {
     public void deleteRecruitmentPhase(Long recruitmentPhaseId){
         RecruitmentPhase recruitmentPhase = recruitmentPhaseRepository.findById(recruitmentPhaseId).get();
 
-        Iterable<Application> applications = applicationRepository.findApplicationByCurrentApplicationPhase(recruitmentPhaseId);
+        Iterable<Application> applications = applicationRepository.findApplicationByCurrentRecruitmentPhase(recruitmentPhase);
 
-        Long firstRecruitmentPhaseId = recruitmentPhase.getRecruitmentProcess().getRecruitmentPhases().getFirst().getId();
+        RecruitmentPhase firstRecruitmentPhase = recruitmentPhase.getRecruitmentProcess().getRecruitmentPhases().get(1);
 
         for (Application application : applications) {
-            application.setCurrentApplicationPhase(firstRecruitmentPhaseId);
+            application.setCurrentRecruitmentPhase(firstRecruitmentPhase);
             applicationRepository.save(application);
         }
 
