@@ -23,7 +23,7 @@ public class RecruitmentPhaseController {
     }
 
     @Operation(summary = "Update an existing recruitment phase")
-    @PostMapping("/update-phase/{recruitmentPhaseId}")
+    @PutMapping("/update-phase/{recruitmentPhaseId}")
     public RecruitmentPhase updateRecruitmentPhase(@PathVariable Long recruitmentPhaseId, @RequestBody RecruitmentPhaseRequest recruitmentPhaseRequest) {
         return recruitmentPhaseService.updateRecruitmentPhase(recruitmentPhaseId,recruitmentPhaseRequest);
     }
@@ -32,6 +32,12 @@ public class RecruitmentPhaseController {
     @GetMapping("/{recruitmentPhaseId}")
     public RecruitmentPhase getRecruitmentPhaseById(@PathVariable Long recruitmentPhaseId) {
         return recruitmentPhaseService.getRecruitmentPhaseById(recruitmentPhaseId);
+    }
+
+    @Operation(summary = "Delete recruitment phase by id")
+    @DeleteMapping("/{recruitmentPhaseId}")
+    public void deleteRecruitmentPhaseById(@PathVariable Long recruitmentPhaseId) {
+        recruitmentPhaseService.deleteRecruitmentPhase(recruitmentPhaseId);
     }
 
     @Operation(summary = "Get all recruitment phases")
