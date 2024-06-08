@@ -122,4 +122,9 @@ public class RecruitmentProcessServiceImpl implements RecruitmentProcessService 
     public boolean isRecruitmentProcessFromCompany(Long recruitmentProcessId, Long companyId) {
         return recruitmentProcessRepository.existsByIdAndCompanyId(recruitmentProcessId, companyId);
     }
+
+    @Override
+    public Iterable<RecruitmentProcess> getAllActiveRecruitmentProcesses() {
+        return recruitmentProcessRepository.findAllByJobPostEnabledTrue();
+    }
 }

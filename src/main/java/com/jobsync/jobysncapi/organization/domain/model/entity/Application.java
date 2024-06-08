@@ -3,10 +3,9 @@ package com.jobsync.jobysncapi.organization.domain.model.entity;
 
 import com.jobsync.jobysncapi.applicant.model.entity.Applicant;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 import java.util.Date;
 
@@ -22,8 +21,6 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long currentApplicationPhase;
-
     private Date application_date;
 
     private Boolean is_active;
@@ -33,6 +30,10 @@ public class Application {
     private Applicant applicant;
 
     @ManyToOne
-    @JoinColumn(name = "recruitment_processes_id", referencedColumnName = "id")
+    @JoinColumn(name = "recruitment_process_id", referencedColumnName = "id")
     private RecruitmentProcess recruitmentProcess;
+
+    @ManyToOne
+    @JoinColumn(name = "recruitment_phase_id", referencedColumnName = "id")
+    private RecruitmentPhase currentRecruitmentPhase;
 }

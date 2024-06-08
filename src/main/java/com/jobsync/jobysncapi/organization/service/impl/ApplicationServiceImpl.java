@@ -7,8 +7,10 @@ import com.jobsync.jobysncapi.organization.api.dto.response.ApplicationResponse;
 import com.jobsync.jobysncapi.organization.api.dto.response.CompanyResponse;
 import com.jobsync.jobysncapi.organization.domain.model.entity.Application;
 import com.jobsync.jobysncapi.organization.domain.model.entity.Company;
+import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentPhase;
 import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentProcess;
 import com.jobsync.jobysncapi.organization.domain.persistence.ApplicationRepository;
+import com.jobsync.jobysncapi.organization.domain.persistence.RecruitmentPhaseRepository;
 import com.jobsync.jobysncapi.organization.domain.persistence.RecruitmentProcessRepository;
 import com.jobsync.jobysncapi.organization.service.ApplicationService;
 import com.jobsync.jobysncapi.recruiter.domain.model.entity.Recruiter;
@@ -31,15 +33,17 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicantRepository applicantRepository;
 
     private final ModelMapper modelMapper;
+    private final RecruitmentPhaseRepository recruitmentPhaseRepository;
 
     public ApplicationServiceImpl(ApplicationRepository applicationRepository,
                                   RecruitmentProcessRepository recruitmentProcessRepository,
                                   ApplicantRepository applicantRepository,
-                                  ModelMapper modelMapper) {
+                                  ModelMapper modelMapper, RecruitmentPhaseRepository recruitmentPhaseRepository) {
         this.applicationRepository = applicationRepository;
         this.recruitmentProcessRepository = recruitmentProcessRepository;
         this.applicantRepository = applicantRepository;
         this.modelMapper = modelMapper;
+        this.recruitmentPhaseRepository = recruitmentPhaseRepository;
     }
 
     @Override
@@ -78,12 +82,22 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new IllegalArgumentException("Applicant with id " + applicationRequest.getApplicantId() + " not found");
         }
 
-
         application.setRecruitmentProcess(optionalRecruitmentProcess.get());
         application.setApplicant(optionalApplicant.get());
         application.setApplication_date(new Date());
         application.setIs_active(true);
-        application.setCurrentApplicationPhase(optionalRecruitmentProcess.get().getRecruitmentPhases().getFirst().getId()); // First phase of the recruitment process
+
+        List<RecruitmentPhase> recruitmentPhases = recruitmentPhaseRepository.findAllByRecruitmentProcessId(applicationRequest.getRecruitmentProcessId());
+
+        if (recruitmentPhases.isEmpty()) {
+            throw new IllegalArgumentException("No recruitment phases found for the recruitment process with id " + applicationRequest.getRecruitmentProcessId());
+        }
+
+        if (recruitmentPhases.get(0) == null) {
+            throw new IllegalArgumentException("First phase of the recruitment process is null");
+        }
+
+        application.setCurrentRecruitmentPhase(recruitmentPhases.get(0));
 
         return applicationRepository.save(application);
     }
@@ -107,12 +121,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationRepository.findById(applicationId)
                 .map(application -> {
                     // Verify if the new phase is valid
-                    application.getRecruitmentProcess().getRecruitmentPhases().stream()
+                    RecruitmentPhase newPhase =
+                            application.getRecruitmentProcess().getRecruitmentPhases().stream()
                             .filter(phase -> phase.getId().equals(newPhaseId))
-                            .findFirst()
-                            .orElseThrow(() -> new IllegalArgumentException("Recruitment phase with id " + newPhaseId + " not found"));
+                            .findFirst().get();
 
-                    application.setCurrentApplicationPhase(newPhaseId);
+                    application.setCurrentRecruitmentPhase(newPhase);
 
                     return applicationRepository.save(application);
                 })

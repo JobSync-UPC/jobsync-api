@@ -12,4 +12,5 @@ public interface    RecruitmentProcessRepository extends JpaRepository<Recruitme
     Iterable<RecruitmentProcess> findByCompanyId(Long companyId);
 
     boolean existsByIdAndCompanyId(Long recruitmentProcessId, Long companyId);
+    Iterable<RecruitmentProcess> findAllByJobPostEnabledTrue();
 }
