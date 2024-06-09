@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface    RecruitmentProcessRepository extends JpaRepository<RecruitmentProcess, Long> {
 
     Iterable<RecruitmentProcess> findByCompanyId(Long companyId);
+
+    boolean existsByIdAndCompanyId(Long recruitmentProcessId, Long companyId);
+    Iterable<RecruitmentProcess> findAllByJobPostEnabledTrue();
 }

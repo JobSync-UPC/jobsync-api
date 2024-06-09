@@ -10,6 +10,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -44,4 +47,7 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "recruitment_phases", referencedColumnName = "id")
     private RecruitmentPhase recruitmentPhase;
+
+//    @OneToMany(mappedBy = "task")
+//    private List<ApplicationPhaseTask> applicationPhaseTasks;
 }

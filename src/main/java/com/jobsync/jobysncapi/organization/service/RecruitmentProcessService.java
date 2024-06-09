@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface RecruitmentProcessService {
 
-    RecruitmentProcess createRecruitmentProcess(Long companyId);
-    RecruitmentProcess updateRecruitmentProcess(Long recruitmentProcessId);
-    void deleteRecruitmentProcess(Long recruitmentProcessId);
-    RecruitmentProcess getRecruitmentProcessById(Long recruitmentProcessId);
+    public abstract RecruitmentProcess createRecruitmentProcess(Long companyId);
+    public abstract RecruitmentProcess updateEnabledRecruitmentProcess(Long recruitmentProcessId);
+    public abstract void deleteRecruitmentProcess(Long recruitmentProcessId);
+    public abstract RecruitmentProcess getRecruitmentProcessById(Long recruitmentProcessId);
 
-    Iterable<RecruitmentProcess> getAllRecruitmentProcesses();
+    public abstract Iterable<RecruitmentProcess> getAllRecruitmentProcesses();
 
-    Iterable<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId);
+    public abstract Iterable<RecruitmentProcess> getRecruitmentProcessesByCompanyId(Long companyId);
+    public abstract boolean isRecruitmentProcessFromCompany(Long recruitmentProcessId, Long companyId);
+    public abstract Iterable<RecruitmentProcess> getAllActiveRecruitmentProcesses();
 }
 

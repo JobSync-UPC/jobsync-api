@@ -1,15 +1,18 @@
 package com.jobsync.jobysncapi.organization.api.rest;
 
 
+import com.jobsync.jobysncapi.organization.api.dto.request.RecruitmentPhaseRequest;
+import com.jobsync.jobysncapi.organization.domain.model.entity.JobPost;
+import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentPhase;
 import com.jobsync.jobysncapi.organization.domain.model.entity.RecruitmentProcess;
+import com.jobsync.jobysncapi.organization.service.JobPostService;
+import com.jobsync.jobysncapi.organization.service.RecruitmentPhaseService;
 import com.jobsync.jobysncapi.organization.service.RecruitmentProcessService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,10 +36,10 @@ public class RecruitmentProcessController {
         return recruitmentProcessService.getRecruitmentProcessById(id);
     }
 
-    @Operation(summary = "Update recruitment process")
-    @GetMapping("/update/{recruitmentProcessId}")
-    public RecruitmentProcess updateRecruitmentProcess(@PathVariable Long recruitmentProcessId) {
-        return recruitmentProcessService.updateRecruitmentProcess(recruitmentProcessId);
+    @Operation(summary = "Finish/Reopen recruitment process")
+    @PutMapping("/update-enabled/{recruitmentProcessId}")
+    public RecruitmentProcess finishRecruitmentProcess(@PathVariable Long recruitmentProcessId) {
+        return recruitmentProcessService.updateEnabledRecruitmentProcess(recruitmentProcessId);
     }
 
     @Operation(summary = "Delete recruitment process")
@@ -49,5 +52,17 @@ public class RecruitmentProcessController {
     @GetMapping("/company/{companyId}")
     public Iterable<RecruitmentProcess> getRecruitmentProcessByCompanyId(@PathVariable Long companyId) {
         return recruitmentProcessService.getRecruitmentProcessesByCompanyId(companyId);
+    }
+
+    @Operation(summary = "Check if recruitment process is from company")
+    @GetMapping("is-from-company")
+    public boolean isRecruitmentProcessFromCompany(@RequestParam Long recruitmentProcessId, @RequestParam Long companyId) {
+        return recruitmentProcessService.isRecruitmentProcessFromCompany(recruitmentProcessId, companyId);
+    }
+
+    @Operation(summary = "Get all active recruitment processes by job post")
+    @GetMapping("/active")
+    public Iterable<RecruitmentProcess> isRecruitmentProcessFromCompany() {
+        return recruitmentProcessService.getAllActiveRecruitmentProcesses();
     }
 }

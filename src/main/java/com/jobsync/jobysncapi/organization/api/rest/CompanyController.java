@@ -30,16 +30,11 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    private final CompanyRepository companyRepository;
-
-    private final RecruiterRepository recruiterRepository;
 
     private final ModelMapper modelMapper;
 
-    public CompanyController(CompanyRepository companyRepository, RecruiterRepository recruiterRepository, ModelMapper modelMapper) {
+    public CompanyController( ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
-        this.companyRepository = companyRepository;
-        this.recruiterRepository = recruiterRepository;
     }
 
     @Operation(summary = "Get all companies")
